@@ -8,3 +8,5 @@ javanotebook/dependency-reduced-pom.xml
 javanotebook/buildNumber.properties
 javanotebook/.mvn/timing.properties
 javanotebook/.mvn/wrapper/maven-wrapper.jar
+
+.DS_Store
