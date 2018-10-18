@@ -10,3 +10,21 @@ javanotebook/.mvn/timing.properties
 javanotebook/.mvn/wrapper/maven-wrapper.jar
 
 .DS_Store
+
+javanotebook-front/node_modules
+
+# testing
+javanotebook-front/coverage
+
+# production
+javanotebook-front/build
+
+# misc
+javanotebook-front/.env.local
+javanotebook-front/.env.development.local
+javanotebook-front/.env.test.local
+javanotebook-front/.env.production.local
+
+javanotebook-front/npm-debug.log*
+javanotebook-front/yarn-debug.log*
+javanotebook-front/yarn-error.log*
