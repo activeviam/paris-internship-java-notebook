@@ -22,22 +22,23 @@ class App extends React.Component <{}, {code:string}> {
       <MonacoEditor
         width="800"
         height="600"
-        language="javascript"
+        language="java"
         theme="vs-dark"
         value={code}
         options={options}
+        onChange={this.onChangeValue}
+        editorDidMount={this.editorDidMount}
       />
     );
   }
+  
+  public editorDidMount = (editor:any) => {
+    console.log("editor did mount");
+  }
 
-  // private editorDidMount(editor:any){
-  //   console.log("editorDidMount", editor);
-  //   editor.focus();
-  // }
-
-  // private onChangeValue(newValue:string, e:Event){
-  //   console.log('onChange', newValue, e);
-  // }
+  public onChangeValue(newValue:any, e:any){
+    console.log('onChange', newValue, e);
+  }
 
 }
 
