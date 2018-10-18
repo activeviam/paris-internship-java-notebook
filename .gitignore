@@ -1,0 +1,10 @@
+javanotebook/target/
+javanotebook/pom.xml.tag
+javanotebook/pom.xml.releaseBackup
+javanotebook/pom.xml.versionsBackup
+javanotebook/pom.xml.next
+javanotebook/release.properties
+javanotebook/dependency-reduced-pom.xml
+javanotebook/buildNumber.properties
+javanotebook/.mvn/timing.properties
+javanotebook/.mvn/wrapper/maven-wrapper.jar
