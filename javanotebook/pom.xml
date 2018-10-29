@@ -24,6 +24,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <scope>test</scope>
@@ -48,7 +53,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.11</java.version>
     </properties>
 
 

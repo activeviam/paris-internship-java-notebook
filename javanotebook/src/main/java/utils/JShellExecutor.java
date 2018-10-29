@@ -22,7 +22,7 @@ public class JShellExecutor {
         resultList = new ArrayList<String>();
     }
 
-    public List<String> evaluate(String command){
+    public List<String> evaluate1(String command){
 
         try (PrintStream myOutStream = new PrintStream(baos, true, "UTF-8")) {
             try (JShell jshell = JShell.builder().out(myOutStream).build()){
@@ -67,8 +67,7 @@ public class JShellExecutor {
         return resultList;
     }
 
-    public List<String> evaluate2(String input) {
-        ArrayList<String> sb = new ArrayList<String>();
+    private void startEvaluation(String input, ArrayList<String> sb) {
         try(JShell jshell = JShell.create()){
             // Handle snippet events. We can print value or take action if evaluation failed.
               jshell.onSnippetEvent(snippetEvent -> snippetEventHandler(snippetEvent, sb));
@@ -93,15 +92,70 @@ public class JShellExecutor {
           } catch (Exception e) {
               e.printStackTrace();
           }
-        return sb;
     }
+
+    public List<String> evaluateCommand(String input){
+        try (PrintStream outstream = new PrintStream(baos, true, "UTF-8")) {
+            try (JShell jshell = JShell.builder().out(outstream).build()){
+                String content = input;
+                events = new ArrayList<SnippetEvent>();
+                resultList = new ArrayList<String>();
+                while (true) {
+                    SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
+                    if (!an.completeness().isComplete()) {
+                        break;
+                    }
+                    for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
+                        events.add(e);
+                        StringBuilder sb = new StringBuilder();
+                        switch (e.status()) {
+                            case VALID:
+                                sb.append("Successful, ");
+                                break;
+                            case RECOVERABLE_DEFINED:
+                                sb.append("With unresolved references, ");
+                                break;
+                            case RECOVERABLE_NOT_DEFINED:
+                                sb.append("Possibly reparable, failed,  ");
+                                break;
+                            case REJECTED:
+                                sb.append("Failed, ");
+                                break;
+                            default:
+                                sb.append("Error");
+                        }
+                        sb.append("The value of the expression is:");
+                        try {
+                            String rep = new String(baos.toByteArray(), "UTF-8");
+                            sb.append(rep);
+                            baos.reset();
+                        }
+                        catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+                        resultList.add(sb.toString());
+                    }
+                    if (an.remaining().isEmpty()) {
+                        break;
+                    }
+                    content = an.remaining();
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        resultList.add("Event list size:" + events.size());
+        return resultList;
+       }
 
     public void snippetEventHandler(SnippetEvent snippetEvent, ArrayList<String> sb){
         String value = snippetEvent.value();
         if(!Objects.isNull(value) && value.trim().length() > 0) {
           // Prints output of code evaluation
             // System.out.println(value);
-            sb.add(value);
+            sb.add("Evaluation successfull: "  + value);
         }
         // If there are any erros print and exit
         if(Snippet.Status.REJECTED.equals(snippetEvent.status())){

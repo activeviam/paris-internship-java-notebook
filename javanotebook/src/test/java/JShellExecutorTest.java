@@ -33,6 +33,6 @@ public class JShellExecutorTest {
         JShellExecutor jse = new JShellExecutor();
         String input = "int a = 4; int b = 6; System.out.println(a+b)";
         List<String> resultat = jse.evaluate(input);
-        assertEquals(resultat.get(0), "10\n");
+        assertEquals("10", resultat.get(0));
     }
 }

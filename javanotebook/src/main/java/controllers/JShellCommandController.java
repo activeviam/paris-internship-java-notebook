@@ -18,7 +18,7 @@ public class JShellCommandController{
     @PostMapping(value = "/jshellCommand")
     public JShellCommand command(@RequestBody ReceivedCommandVM command){
         JShellExecutor executor = new JShellExecutor();
-        List<String> commandOutput = executor.evaluate(command.getCommand());
+        List<String> commandOutput = executor.evaluateCommand(command.getCommand());
         return new JShellCommand(counter.incrementAndGet(), commandOutput, command.getCommand());
     }
 }
