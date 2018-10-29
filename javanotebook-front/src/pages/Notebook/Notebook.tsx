@@ -3,12 +3,14 @@ import MonacoEditor from 'react-monaco-editor';
 
 import Button from '@material-ui/core/Button';
 
+import { IProcessedCommand } from '../../interfaces';
+
 interface INotebookPageState {
   code: string;
 }
 
 interface INotebookPageProps {
-  commandOutput: string;
+  codeOutput: IProcessedCommand[];
   processCommandRequest: (command: string) => void;
 }
 
@@ -45,7 +47,13 @@ export class NotebookPage extends React.Component <INotebookPageProps, INotebook
         <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleSendCommand()}>
           Send
         </Button>
-        <span>{this.props.commandOutput}</span>
+        <div>
+          {(this.props.codeOutput || []).map(((processedCommand, index) => 
+              <div key={`${processedCommand.output}-${index}`}>
+                <span>{`${processedCommand.status}:${processedCommand.output}`}</span>
+              </div>
+          ))}
+        </div>
       </div>
     );
   }
