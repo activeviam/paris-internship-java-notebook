@@ -55,6 +55,9 @@ public class JShellExecutor {
                                     diagnosticsStream.close();
                                     co.setOutput("Error: " + errorText);
                                     break;
+                                case OVERWRITTEN:
+                                    co.setOutput("Overwritten class");
+                                    break;
                                 default:
                                     diagnosticsStream = jshell.diagnostics(e.snippet());
                                     diagnosticsList = diagnosticsStream.collect(Collectors.toList());
