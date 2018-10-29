@@ -10,7 +10,7 @@ import { COMMANDS_ACTIONS } from '../../store/commands';
 
 const mapStateToProps = (state: IStore) => {
     return {
-        commandOutput: state.commandReducer.commandOutput,
+        codeOutput: state.commandReducer.codeOutput,
     };
 };
 

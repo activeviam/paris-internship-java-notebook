@@ -1,6 +1,8 @@
 import { ActionCreatorsMapObject } from 'redux';
 import { createAction } from '../utils';
 
+import { IProcessedCommand } from '../../interfaces';
+
 // Actions type 
 export enum ActionTypes {
     PROCESS_COMMAND_REQUEST = 'PROCESS_COMMAND_REQUEST',
@@ -19,7 +21,7 @@ export interface IProcessingCommandRequestPayload {
 }
 
 export interface IProcessingCommandRequestSuccess {
-    commandOutput: string;
+    codeOutput: IProcessedCommand[];
 }
 
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
