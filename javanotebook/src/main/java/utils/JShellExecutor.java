@@ -2,12 +2,15 @@ package utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.stream.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
+import jdk.jshell.Diag;
 
 import models.CommandOutput;
 
@@ -15,20 +18,18 @@ import models.CommandOutput;
 public class JShellExecutor {
 
     private List<SnippetEvent> events;
-    private List<String> resultList;
     private List<CommandOutput> output;
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    
-    public JShellExecutor(){
-        resultList = new ArrayList<String>();
-    }
+    private ByteArrayOutputStream baosOut = new ByteArrayOutputStream();
+    private Stream<Diag> diagnosticsStream;
+    private List<Diag> diagnosticsList;
+    private String errorText;
+
 
     public List<CommandOutput> evaluateCommand(String input){
-        try (PrintStream outstream = new PrintStream(baos, true, "UTF-8")) {
+    try (PrintStream outstream = new PrintStream(baosOut, true, "UTF-8")) {
             try (JShell jshell = JShell.builder().out(outstream).build()){
                 String content = input;
                 events = new ArrayList<SnippetEvent>();
-                resultList = new ArrayList<String>();
                 output = new ArrayList<CommandOutput>();
                 while (true) {
                     SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
@@ -37,38 +38,45 @@ public class JShellExecutor {
                     }
                     for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
                         events.add(e);
-                        // StringBuilder sb = new StringBuilder();
                         CommandOutput co = new CommandOutput();
                         co.setStatus(e.status().toString());
                         co.setCommand(e.snippet().source());
-                        // switch (e.status()) {
-                        //     case VALID:
-                        //         sb.append("Successful, ");
-                        //         break;
-                        //     case RECOVERABLE_DEFINED:
-                        //         sb.append("With unresolved references, ");
-                        //         break;
-                        //     case RECOVERABLE_NOT_DEFINED:
-                        //         sb.append("Possibly reparable, failed,  ");
-                        //         break;
-                        //     case REJECTED:
-                        //         sb.append("Failed, ");
-                        //         break;
-                        //     default:
-                        //         sb.append("Error");
-                        // }
-                        // sb.append("The value of the expression is:");
+                        String rep;
                         try {
-                            String rep = new String(baos.toByteArray(), "UTF-8");
-                            // sb.append(rep);
-                            co.setOutput(rep);
-                            baos.reset();
+                            switch (e.status()){
+                                case VALID:
+                                    rep = new String(baosOut.toByteArray(), "UTF-8");
+                                    co.setOutput(rep);
+                                    break;
+                                case REJECTED:
+                                    diagnosticsStream = jshell.diagnostics(e.snippet());
+                                    diagnosticsList = diagnosticsStream.collect(Collectors.toList());
+                                    errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
+                                    diagnosticsStream.close();
+                                    co.setOutput("Error: " + errorText);
+                                    break;
+                                default:
+                                    diagnosticsStream = jshell.diagnostics(e.snippet());
+                                    diagnosticsList = diagnosticsStream.collect(Collectors.toList());
+                                    errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
+                                    diagnosticsStream.close();
+                                    if (diagnosticsList.get(0).isError()) {
+                                        co.setStatus("ERROR");
+                                    }
+                                    else {
+                                        co.setStatus("WARNING");
+                                    }
+                                    co.setOutput("Error: " + errorText);
+                                    break;
+
+                                
+                            }
+                            baosOut.reset();
                         }
                         catch (Exception ex){
                             ex.printStackTrace();
                         }
                         output.add(co);
-                        // resultList.add(sb.toString());
                     }
                     if (an.remaining().isEmpty()) {
                         break;
@@ -80,8 +88,6 @@ public class JShellExecutor {
         catch (Exception e){
             e.printStackTrace();
         }
-
-        // resultList.add("Event list size:" + events.size());
         return output;
        }
 

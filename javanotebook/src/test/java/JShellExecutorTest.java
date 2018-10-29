@@ -91,6 +91,15 @@ public class JShellExecutorTest {
     }
 
     @Test
+    public void shouldHandleErrors(){
+        JShellExecutor jse = new JShellExecutor();
+        String input = "System.out.printl(hello);";
+        List<CommandOutput> result = jse.evaluateCommand(input);
+        assertEquals("REJECTED", result.get(0).getStatus());
+        assertEquals("Error: cannot find symbol\n  symbol:   variable hello\n  location: class ", result.get(0).getOutput());
+    }
+
+    @Test
     public void shouldHandlePolymorphisme() {
         // on fait ou pas ?
     }
