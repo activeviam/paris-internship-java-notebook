@@ -24,7 +24,7 @@ public class JShellExecutorTest {
     public void shouldHandlePrintCommand() {
         JShellExecutor jse = new JShellExecutor();
         String input = "System.out.println(\"TEST\")";
-        List<String> resultat = jse.evaluate(input);
+        List<String> resultat = jse.evaluateCommand(input);
         assertEquals(resultat.get(0), "TEST\n");
     }
 
@@ -32,7 +32,7 @@ public class JShellExecutorTest {
     public void shouldHandleVariables() {
         JShellExecutor jse = new JShellExecutor();
         String input = "int a = 4; int b = 6; System.out.println(a+b)";
-        List<String> resultat = jse.evaluate(input);
+        List<String> resultat = jse.evaluateCommand(input);
         assertEquals("10", resultat.get(0));
     }
 }
