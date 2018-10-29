@@ -1,67 +1,99 @@
 package utils;
 
-import java.io.Console;
-import java.io.ByteArrayInputStream;
-import java.util.List;
-import java.util.ArrayList;
-import jdk.jshell.*;
-import jdk.jshell.Snippet.Status;
-import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import jdk.jshell.JShell;
+import jdk.jshell.SnippetEvent;
+import jdk.jshell.SourceCodeAnalysis;
+
+import models.CommandOutput;
 
 
 public class JShellExecutor {
 
     private List<SnippetEvent> events;
     private List<String> resultList;
+    private List<CommandOutput> output;
     private ByteArrayOutputStream baos = new ByteArrayOutputStream();
     
     public JShellExecutor(){
         resultList = new ArrayList<String>();
     }
 
-    public List<String> evaluate(String command){
-
-        try (PrintStream myOutStream = new PrintStream(baos, true, "UTF-8")) {
-            try (JShell jshell = JShell.builder().out(myOutStream).build()){
-                events = jshell.eval(command);
-                for(SnippetEvent e : events){
-                    StringBuilder sb = new StringBuilder();
-                    switch (e.status()) {
-                        case VALID:
-                            sb.append("Successful, ");
-                            break;
-                        case RECOVERABLE_DEFINED:
-                            sb.append("With unresolved references, ");
-                            break;
-                        case RECOVERABLE_NOT_DEFINED:
-                            sb.append("Possibly reparable, failed,  ");
-                            break;
-                        case REJECTED:
-                            sb.append("Failed, ");
-                            break;
-                        default:
-                            sb.append("Error");
+    public List<CommandOutput> evaluateCommand(String input){
+        try (PrintStream outstream = new PrintStream(baos, true, "UTF-8")) {
+            try (JShell jshell = JShell.builder().out(outstream).build()){
+                String content = input;
+                events = new ArrayList<SnippetEvent>();
+                resultList = new ArrayList<String>();
+                output = new ArrayList<CommandOutput>();
+                while (true) {
+                    SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
+                    if (!an.completeness().isComplete()) {
+                        break;
                     }
-                    
-                    sb.append("The value of the expression is:");
-                    sb.append(e.value());
-                    resultList.add(sb.toString());
+                    for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
+                        events.add(e);
+                        // StringBuilder sb = new StringBuilder();
+                        CommandOutput co = new CommandOutput();
+                        co.setStatus(e.status().toString());
+                        co.setCommand(e.snippet().source());
+                        // switch (e.status()) {
+                        //     case VALID:
+                        //         sb.append("Successful, ");
+                        //         break;
+                        //     case RECOVERABLE_DEFINED:
+                        //         sb.append("With unresolved references, ");
+                        //         break;
+                        //     case RECOVERABLE_NOT_DEFINED:
+                        //         sb.append("Possibly reparable, failed,  ");
+                        //         break;
+                        //     case REJECTED:
+                        //         sb.append("Failed, ");
+                        //         break;
+                        //     default:
+                        //         sb.append("Error");
+                        // }
+                        // sb.append("The value of the expression is:");
+                        try {
+                            String rep = new String(baos.toByteArray(), "UTF-8");
+                            // sb.append(rep);
+                            co.setOutput(rep);
+                            baos.reset();
+                        }
+                        catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+                        output.add(co);
+                        // resultList.add(sb.toString());
+                    }
+                    if (an.remaining().isEmpty()) {
+                        break;
+                    }
+                    content = an.remaining();
                 }
-                resultList.add("Size of the snippet event list: " + events.size());
             }
-        } catch (Exception e) {
-            System.out.println(e);
         }
-        
-        try {
-            String rep = new String(baos.toByteArray(), "UTF-8");
-            ArrayList<String> list = new ArrayList<String>();
-            list.add(rep);
-            return list;
-        } catch(Exception e){
-            System.out.println(e);
+        catch (Exception e){
+            e.printStackTrace();
         }
-        return resultList;
+
+        // resultList.add("Event list size:" + events.size());
+        return output;
+       }
+
+    private String trimNewlines(String s) {
+        int b = 0;
+        while (b < s.length() && s.charAt(b) == '\n') {
+            ++b;
+        }
+        int e = s.length() -1;
+        while (e >= 0 && s.charAt(e) == '\n') {
+            --e;
+        }
+        return s.substring(b, e + 1);
     }
 }

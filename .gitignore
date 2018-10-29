@@ -8,10 +8,13 @@ javanotebook/dependency-reduced-pom.xml
 javanotebook/buildNumber.properties
 javanotebook/.mvn/timing.properties
 javanotebook/.mvn/wrapper/maven-wrapper.jar
+javanotebook/.settings/*
 
+.vscode
 .DS_Store
 
 javanotebook-front/node_modules
+
 
 # testing
 javanotebook-front/coverage

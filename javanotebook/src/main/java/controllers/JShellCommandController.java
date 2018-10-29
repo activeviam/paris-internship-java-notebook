@@ -1,22 +1,22 @@
 package controllers;
 
-import models.JShellCommand;
+import models.CommandOutput;
+import models.dto.ReceivedCommandVM;
 import utils.JShellExecutor;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class JShellCommandController{
-    private final AtomicLong counter = new AtomicLong();
-    @RequestMapping("/jshellCommand")
-    public JShellCommand command(@RequestParam(value="command", defaultValue=" ") String command){
+public class JShellCommandController {
+    @PostMapping(value = "/jshellCommand")
+    public List<CommandOutput> command(@RequestBody ReceivedCommandVM command){
         JShellExecutor executor = new JShellExecutor();
-        List<String> commandOutput = executor.evaluate(command);
-        return new JShellCommand(counter.incrementAndGet(), commandOutput);
+        List<CommandOutput> output= executor.evaluateCommand(command.getCommand());
+        return output;
     }
 }
