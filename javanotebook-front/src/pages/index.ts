@@ -1,1 +1,1 @@
-export * from './Notebook/Notebook';
+export { default as NotebookPage } from './Notebook/NotebookContainer';

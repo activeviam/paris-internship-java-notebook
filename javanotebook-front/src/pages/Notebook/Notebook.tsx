@@ -2,13 +2,17 @@ import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 
 import Button from '@material-ui/core/Button';
-import { API } from '../../store/commands/api';
 
 interface INotebookPageState {
   code: string;
 }
 
-export class NotebookPage extends React.Component <{}, INotebookPageState> {
+interface INotebookPageProps {
+  commandOutput: string;
+  processCommandRequest: (command: string) => void;
+}
+
+export class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState> {
 
 
   public componentWillMount(){
@@ -16,7 +20,7 @@ export class NotebookPage extends React.Component <{}, INotebookPageState> {
   }
 
   public handleSendCommand() {
-    API.sendCommand(this.state.code);
+    this.props.processCommandRequest(this.state.code);
     return;
   }
 
@@ -41,6 +45,7 @@ export class NotebookPage extends React.Component <{}, INotebookPageState> {
         <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleSendCommand()}>
           Send
         </Button>
+        <span>{this.props.commandOutput}</span>
       </div>
     );
   }
