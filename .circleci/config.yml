@@ -40,10 +40,10 @@ jobs:
           key: v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
         
       # run tests!
-      - run: cd javanotebook && mvn test
+      # - run: cd javanotebook && mvn test
 
-      - store_test_results:
-          path: javanotebook/target/surefire-reports
+      # - store_test_results:
+      #     path: javanotebook/target/surefire-reports
 
       - run: cd javanotebook && mvn package -Dmaven.test.skip=true
 
