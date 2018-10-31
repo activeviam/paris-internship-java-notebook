@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/repo/javanotebook
+    working_directory: ~/repo
 
     environment:
       # Customize the JVM maximum heap limit
@@ -22,6 +22,10 @@ jobs:
     
     steps:
       - checkout
+
+      - run: cd javanotebook
+
+      - run: ls -al && pwd
 
       # Download and cache dependencies
       - restore_cache:
@@ -57,4 +61,3 @@ jobs:
             - target/*.jar
 
 
-            
