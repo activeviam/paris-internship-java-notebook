@@ -55,3 +55,6 @@ jobs:
           root: ~/repo/javanotebook
           paths:
             - target/*.jar
+
+
+            
