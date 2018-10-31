@@ -76,7 +76,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install 
+      - run: cd javanotebook-front && npm install 
 
       - save_cache:
           paths:
@@ -84,8 +84,8 @@ jobs:
           key: v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
         
       # run tests!
-      - run: npm test
-      - run: npm run build
+      - run: cd javanotebook-front && npm test
+      - run: cd javanotebook-front && npm run build
 
       - persist_to_workspace:
           root: ~/front
