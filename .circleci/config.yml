@@ -23,36 +23,34 @@ jobs:
     steps:
       - checkout
 
-      - run: cd javanotebook
-
       - run: ls -al && pwd
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
+          - v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: mvn dependency:go-offline
+      - run: cd javanotebook && mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
         
       # run tests!
-      - run: mvn integration-test
+      - run: cd javanotebook && mvn integration-test
 
       - store_test_results:
-          path: target/surefire-reports
+          path: javanotebook/target/surefire-reports
 
-      - run: mvn package -Dmaven.test.skip=true
+      - run: cd javanotebook && mvn package -Dmaven.test.skip=true
 
-      - run: ls -al ~/repo/target/
+      - run: cd javanotebook && ls -al ~/repo/target/
 
       - store_artifacts:
-          path: ~/repo/target/java-notebook-0.1.0.jar
+          path: ~/repo/javanotebook/target/java-notebook-0.1.0.jar
           destination: java-notebook-0.1.0.jar
 
       - persist_to_workspace:
