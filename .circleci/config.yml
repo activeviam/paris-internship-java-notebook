@@ -40,7 +40,7 @@ jobs:
           key: v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
         
       # run tests!
-      - run: cd javanotebook && mvn integration-test
+      - run: cd javanotebook && mvn test
 
       - store_test_results:
           path: javanotebook/target/surefire-reports
