@@ -47,7 +47,7 @@ jobs:
 
       - run: cd javanotebook && mvn package -Dmaven.test.skip=true
 
-      - run: cd javanotebook && ls -al ~/repo/target/
+      - run: cd javanotebook && ls -al ~/repo/javanotebook/target/
 
       - store_artifacts:
           path: ~/repo/javanotebook/target/java-notebook-0.1.0.jar
