@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  build_back:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:10-jdk
@@ -58,4 +58,41 @@ jobs:
           paths:
             - target/*.jar
 
+  build_front:
+    docker:
+      - image: circleci/node:7.10
 
+    working_directory: ~/front
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: npm install 
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+        
+      # run tests!
+      - run: npm test
+      - run: npm run build
+
+      - persist_to_workspace:
+          root: ~/front
+          paths:
+            - build/*
+
+workflows:
+  version: 2
+  build-front-back:
+    jobs:
+      - build_back
+      - build_front
