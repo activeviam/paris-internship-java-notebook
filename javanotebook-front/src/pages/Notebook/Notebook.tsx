@@ -3,6 +3,7 @@ import MonacoEditor from 'react-monaco-editor';
 
 import Button from '@material-ui/core/Button';
 
+import { CodeOutput } from '../../components/CodeOutput'; 
 import { IProcessedCommand } from '../../interfaces';
 
 interface INotebookPageState {
@@ -48,11 +49,7 @@ export class NotebookPage extends React.Component <INotebookPageProps, INotebook
           Send
         </Button>
         <div>
-          {(this.props.codeOutput || []).map(((processedCommand, index) => 
-              <div key={`${processedCommand.output}-${index}`}>
-                <span>{`${processedCommand.status}:${processedCommand.output}`}</span>
-              </div>
-          ))}
+            <CodeOutput codeOutput={this.props.codeOutput} />
         </div>
       </div>
     );
