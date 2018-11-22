@@ -18,10 +18,12 @@ export const COMMANDS_ACTIONS = {
 
 export interface IProcessingCommandRequestPayload {
     command: string;
+    id: number;
 }
 
 export interface IProcessingCommandRequestSuccess {
     codeOutput: IProcessedCommand[];
+    id: number;
 }
 
 export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;

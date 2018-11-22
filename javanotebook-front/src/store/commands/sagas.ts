@@ -5,11 +5,12 @@ import { ActionTypes, COMMANDS_ACTIONS } from './actions';
 import { API } from './api';
 
 export function* processCommandRequest(params: any): Iterator<any> {
+    console.log("catched", params);
     try {
         const rep = yield call(API.sendCommand, params.payload.command);
         const data = rep.data;
         // // add missing value from api
-        yield put(COMMANDS_ACTIONS.processingCommandSuccess({codeOutput: data}));
+        yield put(COMMANDS_ACTIONS.processingCommandSuccess({codeOutput: data, id: params.payload.id}));
     } catch (error) {
         yield put(COMMANDS_ACTIONS.processingCommandFailure());
     }
