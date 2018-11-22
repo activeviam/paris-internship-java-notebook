@@ -14,8 +14,8 @@ export class NotebookPage extends React.Component <{}, INotebookPageState> {
   public render() {
     return (
       <div>
-        <CodeBlock codeOutput={[]} />
-
+        <CodeBlock />
+        <CodeBlock />
       </div>
     );
   }

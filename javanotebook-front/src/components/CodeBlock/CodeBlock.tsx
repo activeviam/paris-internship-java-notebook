@@ -15,7 +15,8 @@ interface ICodeBlockState {
 }
 
 interface ICodeBlockProps {
-    codeOutput: IProcessedCommand[];
+    // codeOutput: IProcessedCommand[];
+    getCodeOutput: (id: number) => IProcessedCommand[];
     processCommandRequest: (command: string, id: number) => void;
 }
 
@@ -31,11 +32,9 @@ export class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState
 
     public onChangeCode(code: string) {
         this.setState({code});
-        console.log("code", code);
     }
 
     public handleSendCommand() {
-        console.log("clicked");
         this.props.processCommandRequest(this.state.code, this.state.id);
         return;
       }
@@ -43,6 +42,7 @@ export class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState
 
     public render() {
         const code = this.state.code;
+        const codeOutput = this.props.getCodeOutput(this.state.id);
         return (
             <div>
                 <CodeEditor code={code} onChange={(newCode) => this.onChangeCode(newCode)}/>
@@ -51,7 +51,7 @@ export class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState
                     Send
                 </Button>
                 <div>
-                    {(this.props.codeOutput || []).map(((processedCommand, index) => 
+                    {(codeOutput || []).map(((processedCommand, index) => 
                         <div key={`${processedCommand.output}-${index}`}>
                             <span>{`${processedCommand.status}:${processedCommand.output}`}</span>
                         </div>

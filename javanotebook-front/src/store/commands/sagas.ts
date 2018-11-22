@@ -5,7 +5,6 @@ import { ActionTypes, COMMANDS_ACTIONS } from './actions';
 import { API } from './api';
 
 export function* processCommandRequest(params: any): Iterator<any> {
-    console.log("catched", params);
     try {
         const rep = yield call(API.sendCommand, params.payload.command);
         const data = rep.data;
