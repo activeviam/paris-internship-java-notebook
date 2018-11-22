@@ -3,6 +3,9 @@ package utils;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.stream.*;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,71 +26,77 @@ public class JShellExecutor {
     private Stream<Diag> diagnosticsStream;
     private List<Diag> diagnosticsList;
     private String errorText;
+    private JShell jshell;
+    private PrintStream outstream;
+
+
+    public JShellExecutor() {
+        try {
+           outstream = new PrintStream(baosOut, true, "UTF-8");
+           jshell = JShell.builder().out(outstream).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public List<CommandOutput> evaluateCommand(String input){
-    try (PrintStream outstream = new PrintStream(baosOut, true, "UTF-8")) {
-            try (JShell jshell = JShell.builder().out(outstream).build()){
-                String content = input;
-                events = new ArrayList<SnippetEvent>();
-                output = new ArrayList<CommandOutput>();
-                while (true) {
-                    SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
-                    if (!an.completeness().isComplete()) {
-                        break;
-                    }
-                    for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
-                        events.add(e);
-                        CommandOutput co = new CommandOutput();
-                        co.setStatus(e.status().toString());
-                        co.setCommand(e.snippet().source());
-                        String rep;
-                        try {
-                            switch (e.status()){
-                                case VALID:
-                                    rep = new String(baosOut.toByteArray(), "UTF-8");
-                                    co.setOutput(rep);
-                                    break;
-                                case REJECTED:
-                                    diagnosticsStream = jshell.diagnostics(e.snippet());
-                                    diagnosticsList = diagnosticsStream.collect(Collectors.toList());
-                                    errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
-                                    diagnosticsStream.close();
-                                    co.setOutput("Error: " + errorText);
-                                    break;
-                                default:
-                                    diagnosticsStream = jshell.diagnostics(e.snippet());
-                                    diagnosticsList = diagnosticsStream.collect(Collectors.toList());
-                                    errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
-                                    diagnosticsStream.close();
-                                    if (diagnosticsList.get(0).isError()) {
-                                        co.setStatus("ERROR");
-                                    }
-                                    else {
-                                        co.setStatus("WARNING");
-                                    }
-                                    co.setOutput("Error: " + errorText);
-                                    break;
-
-                                
-                            }
-                            baosOut.reset();
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                        output.add(co);
-                    }
-                    if (an.remaining().isEmpty()) {
-                        break;
-                    }
-                    content = an.remaining();
+            String content = input;
+            events = new ArrayList<SnippetEvent>();
+            output = new ArrayList<CommandOutput>();
+            while (true) {
+                SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
+                if (!an.completeness().isComplete()) {
+                    break;
                 }
+                for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
+                    events.add(e);
+                    CommandOutput co = new CommandOutput();
+                    co.setStatus(e.status().toString());
+                    co.setCommand(e.snippet().source());
+                    String rep;
+                    try {
+                        switch (e.status()){
+                            case VALID:
+                                rep = new String(baosOut.toByteArray(), "UTF-8");
+                                co.setOutput(rep);
+                                break;
+                            case REJECTED:
+                                diagnosticsStream = jshell.diagnostics(e.snippet());
+                                diagnosticsList = diagnosticsStream.collect(Collectors.toList());
+                                errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
+                                diagnosticsStream.close();
+                                co.setOutput("Error: " + errorText);
+                                break;
+                            case OVERWRITTEN:
+                                co.setOutput("Overwritten class");
+                                break;
+                            default:
+                                diagnosticsStream = jshell.diagnostics(e.snippet());
+                                diagnosticsList = diagnosticsStream.collect(Collectors.toList());
+                                errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
+                                diagnosticsStream.close();
+                                if (diagnosticsList.get(0).isError()) {
+                                    co.setStatus("ERROR");
+                                }
+                                else {
+                                    co.setStatus("WARNING");
+                                }
+                                co.setOutput("Error: " + errorText);
+                                break;
+                        }
+                        baosOut.reset();
+                    }
+                    catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    output.add(co);
+                }
+                if (an.remaining().isEmpty()) {
+                    break;
+                }
+                content = an.remaining();
             }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
         return output;
        }
 
