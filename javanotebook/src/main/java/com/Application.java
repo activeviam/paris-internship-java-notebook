@@ -1,9 +1,12 @@
-package application;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(scanBasePackages = {"controllers", "config", "services"})
+@ComponentScan
+@SpringBootApplication
+// (scanBasePackages = {"controllers", "config", "services", "models", "repository"})
 public class Application {
 
     public static void main(String[] args) {
