@@ -1,0 +1,100 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build_back:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:10-jdk
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+    
+    steps:
+      - checkout
+
+      - run: ls -al && pwd
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: cd javanotebook && mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "javanotebook/pom.xml" }}
+        
+      # run tests!
+      # - run: cd javanotebook && mvn test
+
+      # - store_test_results:
+      #     path: javanotebook/target/surefire-reports
+
+      - run: cd javanotebook && mvn package -Dmaven.test.skip=true
+
+      - run: cd javanotebook && ls -al ~/repo/javanotebook/target/
+
+      - store_artifacts:
+          path: ~/repo/javanotebook/target/java-notebook-0.1.0.jar
+          destination: java-notebook-0.1.0.jar
+
+      - persist_to_workspace:
+          root: ~/repo/javanotebook
+          paths:
+            - target/*.jar
+
+  build_front:
+    docker:
+      - image: circleci/node:7.10
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: ls -al && pwd
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: cd javanotebook-front && npm install 
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+        
+      # run tests!
+      # - run: cd javanotebook-front && npm test
+      - run: cd javanotebook-front && npm run build
+
+      - persist_to_workspace:
+          root: ~/repo/javanotebook-front
+          paths:
+            - build/*
+
+workflows:
+  version: 2
+  build-front-back:
+    jobs:
+      - build_back
+      - build_front
