@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IProcessedCommand } from '../interfaces'
+import { IProcessedCommand } from '../../interfaces'
 
 interface ICodeOutputProps {
     codeOutput: IProcessedCommand[];
