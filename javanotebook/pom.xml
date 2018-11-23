@@ -65,7 +65,7 @@
         </dependency>
 
         <!-- Liquibase: Automatic migration -->
-        <!-- <dependency>
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
@@ -73,7 +73,7 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-maven-plugin</artifactId>
             <version>3.4.1</version>
-        </dependency> -->
+        </dependency>
 
         <!-- FIX issue with JAVA 10 -->
         <dependency>
@@ -97,6 +97,22 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
+                    <diffChangeLogFile>
+                        src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml
+                    </diffChangeLogFile>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/chouket</url>
+                    <defaultSchemaName>chouket</defaultSchemaName>
+                    <username>root</username>
+                    <password></password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
