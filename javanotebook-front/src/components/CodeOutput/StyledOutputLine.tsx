@@ -19,6 +19,7 @@ const StyledOutputLine = styled(OutputLine)`
     background: ${props => props.status === "VALID" ? "rgba( 0, 220, 0, 0.1)" : "rgba( 220, 0, 0, 0.1)"};
     margin: 5px;
     padding: 10px;
+    width: 100%;
 `;
 
 export default StyledOutputLine;

@@ -32,7 +32,7 @@ const StyledNotebookPage = styled(NotebookPage)`
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    padding: 50px;
+    margin: 50px;
   `;
 
 export default StyledNotebookPage;
