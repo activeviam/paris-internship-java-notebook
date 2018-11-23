@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 // import { push } from 'connected-react-router';
 
-import { NotebookPage } from './Notebook';
+import StyledNotebookPage from './Notebook';
 
 import { IStore } from '../../interfaces';
 
@@ -14,4 +14,4 @@ const mapStateToProps = (state: IStore) => {
 const mapDispatchToProps = (dispatch: any) => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotebookPage);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledNotebookPage);
