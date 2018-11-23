@@ -1,6 +1,6 @@
-package services;
+package com.services;
 
-import utils.JShellExecutor;
+import com.utils.JShellExecutor;
 
 public interface JShellService {
 

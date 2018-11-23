@@ -1,4 +1,4 @@
-package utils;
+package com.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,7 +15,7 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
 import jdk.jshell.Diag;
 
-import models.CommandOutput;
+import com.models.CommandOutput;
 
 
 public class JShellExecutor {

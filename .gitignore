@@ -22,6 +22,9 @@ javanotebook-front/coverage
 # production
 javanotebook-front/build
 
+#docker bdd
+javanotebook/docker/bdd
+
 # misc
 javanotebook-front/.env.local
 javanotebook-front/.env.development.local

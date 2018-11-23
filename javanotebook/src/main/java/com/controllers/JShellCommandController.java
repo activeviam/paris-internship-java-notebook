@@ -1,9 +1,9 @@
-package controllers;
+package com.controllers;
 
-import models.CommandOutput;
-import models.dto.ReceivedCommandVM;
-import utils.JShellExecutor;
-import services.JShellService;
+import com.models.CommandOutput;
+import com.models.dto.ReceivedCommandVM;
+import com.utils.JShellExecutor;
+import com.services.JShellService;
 
 import java.util.List;
 
