@@ -28,4 +28,11 @@ npm install
 npm start  
 ```
 
+**Build Docker image of the back for deployment**
+
+```
+cd javanotebook
+mvn package -Dmaven.test.skip=true
+docker build -t docker-java-notebook .
+```
 

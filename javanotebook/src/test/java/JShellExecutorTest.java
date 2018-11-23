@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Test;
 
-import utils.JShellExecutor;
+import com.utils.JShellExecutor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import models.CommandOutput;
+import com.models.CommandOutput;
 
 public class JShellExecutorTest {
  
