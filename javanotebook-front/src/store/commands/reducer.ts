@@ -14,7 +14,9 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
         case ActionTypes.PROCESS_COMMAND_SUCCESS:
             isProcessing = false;
             isProcessingError = false;
-            const codeOutput = action.payload!.codeOutput;
+            const id = action.payload!.id;
+            const codeCommandOutput = action.payload!.codeOutput;
+            const codeOutput = {... state.codeOutput, [id]: codeCommandOutput};
             return {...state, isProcessing, isProcessingError, codeOutput};
         case ActionTypes.PROCESS_COMMAND_FAILURE:
             isProcessing = false;
