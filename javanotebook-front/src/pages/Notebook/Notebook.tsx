@@ -1,20 +1,23 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
-import { CodeBlock } from '../../components';
+import { CodeBlock, Title } from '../../components';
 
 
 interface INotebookPageState {
   code: string;
 }
 
-// interface INotebookPageProps {
-// }
+interface INotebookPageProps {
+  className?: string;
+}
 
-export class NotebookPage extends React.Component <{}, INotebookPageState> {
+class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState> {
   
   public render() {
     return (
-      <div>
+      <div className={this.props.className}>
+        <Title title={"Java Notebook"}/>
         <CodeBlock />
         <CodeBlock />
       </div>
@@ -22,3 +25,14 @@ export class NotebookPage extends React.Component <{}, INotebookPageState> {
   }
 
 }
+
+const StyledNotebookPage = styled(NotebookPage)`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    margin: 50px;
+  `;
+
+export default StyledNotebookPage;

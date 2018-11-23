@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 // import { push } from 'connected-react-router';
 
-import { CodeBlock } from './CodeBlock';
+import { StyledCodeBlock } from './CodeBlock';
 
 import { IStore } from '../../interfaces';
 
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     processCommandRequest: (command: string, id: number) => dispatch(COMMANDS_ACTIONS.processingCommandRequest({command, id})),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodeBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledCodeBlock);

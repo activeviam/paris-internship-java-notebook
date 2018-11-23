@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import StyledOutputLine from './StyledOutputLine'
 
@@ -6,15 +7,16 @@ import { IProcessedCommand } from '../../interfaces'
 
 interface ICodeOutputProps {
     codeOutput: IProcessedCommand[];
+    className?: string;
 }
 
-export class CodeOutput extends React.Component <ICodeOutputProps> {
+class CodeOutput extends React.Component <ICodeOutputProps> {
 
     public render() {
 
 
         return(
-            <div>
+            <div className={this.props.className}>
                 {
                     (this.props.codeOutput || []).map((codeOutput, index) => {
                         return(
@@ -26,3 +28,10 @@ export class CodeOutput extends React.Component <ICodeOutputProps> {
         );
     }
 }
+
+
+const StyledCodeOutput = styled(CodeOutput)`
+    width: 100%;
+`;
+
+export { StyledCodeOutput };

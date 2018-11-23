@@ -1,11 +1,12 @@
 import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import styled from 'styled-components';
 
 
 interface ICodeEditorProps {
     code: string;
     onChange: (value: string) => void;
-
+    className?: string;
 }
 
 export class CodeEditor extends React.Component <ICodeEditorProps, {}> {
@@ -34,5 +35,11 @@ export class CodeEditor extends React.Component <ICodeEditorProps, {}> {
             />
         )
     }
-
 }
+
+const StyledCodeEditor = styled(CodeEditor)`
+    margin: 10px;
+    width: 100%;
+`;
+
+export { StyledCodeEditor };
