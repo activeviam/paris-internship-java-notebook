@@ -1,15 +1,15 @@
 version: '2'
 
 services:
-  javanotebook-back:
-    image: docker-java-notebook
-    environment:
-      - RUNNER_SLEEP=5
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/chouket?useUnicode=true&characterEncoding=utf8&useSSL=false
-    ports:
-      - 8080:8080
-    links:
-      - db
+  # javanotebook-back:
+  #   image: docker-java-notebook
+  #   environment:
+  #     - RUNNER_SLEEP=5
+  #     - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/chouket?useUnicode=true&characterEncoding=utf8&useSSL=false
+  #   ports:
+  #     - 8080:8080
+  #   links:
+  #     - db
   db:
     extends:
       file: mysql.yml

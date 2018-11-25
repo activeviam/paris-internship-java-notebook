@@ -12,15 +12,18 @@ import { StyledCodeOutput } from '../CodeOutput/CodeOutput';
 
 
 interface ICodeBlockState {
-    code: string;
     id: number;
 }
 
 interface ICodeBlockProps {
     // codeOutput: IProcessedCommand[];
+    changeCodeContent: (id: number, codeContent: string) => void;
+    getCodeSnippetRequest: (id: number, idSnippet: number) => void;
     getCodeOutput: (id: number) => IProcessedCommand[];
     processCommandRequest: (command: string, id: number) => void;
+    saveCodeSnippetRequest: (codeSnippetContent: string, codeSnippetName: string) => void;
     className?: string;
+    getCode: (id: number) => string;
 }
 
 class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
@@ -30,21 +33,41 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
     public constructor(props: ICodeBlockProps) {
         super(props);
         CodeBlock.blockCount += 1;
-        this.state = {code: '// Enter your code here', id: CodeBlock.blockCount};
+        this.state = { id: CodeBlock.blockCount};
     }
 
     public onChangeCode(code: string) {
-        this.setState({code});
+        this.props.changeCodeContent(this.state.id, code);
     }
 
     public handleSendCommand() {
-        this.props.processCommandRequest(this.state.code, this.state.id);
+        const code = this.props.getCode(this.state.id);
+        this.props.processCommandRequest(code, this.state.id);
         return;
-      }
+    }
+
+    public handleSaveCode() {
+        const code = this.props.getCode(this.state.id);
+        const name = prompt("Enter a name for the snippet");
+        if (name) {
+            this.props.saveCodeSnippetRequest(code, name);
+        } else {
+            console.log("You must enter a valid name");
+        }
+        return;
+    }
     
+    public handleGetCodeSnippet() {
+        const id = prompt("Enter id of the snippet to retreive");
+        if (id) {
+            this.props.getCodeSnippetRequest(this.state.id, Number(id));
+        } else {
+            console.log("Enter a valid id");
+        }
+    }
 
     public render() {
-        const code = this.state.code;
+        const code = this.props.getCode(this.state.id);
         const codeOutput = this.props.getCodeOutput(this.state.id);
         return (
             <div className={this.props.className}>
@@ -52,6 +75,12 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
 
                 <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleSendCommand()}>
                     Send
+                </Button>
+                <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleSaveCode()}>
+                    Save Code
+                </Button>
+                <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleGetCodeSnippet()}>
+                    Get Code
                 </Button>
                 <StyledCodeOutput codeOutput={codeOutput}/>
             </div>
