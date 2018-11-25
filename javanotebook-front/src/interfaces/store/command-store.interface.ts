@@ -4,4 +4,5 @@ export interface ICommandStore {
     isProcessing?: boolean;
     isProcessingError?: boolean;
     codeOutput?: { [id: number]: IProcessedCommand[]; };
+    codeContent?: { [id: number]: string; };
 }

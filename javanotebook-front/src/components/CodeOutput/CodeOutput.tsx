@@ -13,8 +13,6 @@ interface ICodeOutputProps {
 class CodeOutput extends React.Component <ICodeOutputProps> {
 
     public render() {
-
-
         return(
             <div className={this.props.className}>
                 {

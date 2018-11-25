@@ -18,7 +18,7 @@ public class JShellCommandController {
     @Autowired
     JShellService jShellService;
 
-    @PostMapping(value = "/jshellCommand")
+    @PostMapping(value = "/api/jshellCommand")
     public List<CommandOutput> command(@RequestBody ReceivedCommandVM command){
         JShellExecutor executor = jShellService.getJse("0"); //for now we statically create a jse in the service
         List<CommandOutput> output= executor.evaluateCommand(command.getCommand());
