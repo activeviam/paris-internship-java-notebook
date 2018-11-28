@@ -11,12 +11,12 @@ import { StyledCodeOutput } from '../CodeOutput/CodeOutput';
 
 
 
-interface ICodeBlockState {
-    id: number;
-}
+// interface ICodeBlockState {
+//     id: number;
+// }
 
 interface ICodeBlockProps {
-    // codeOutput: IProcessedCommand[];
+    id: number;
     changeCodeContent: (id: number, codeContent: string) => void;
     getCodeSnippetRequest: (id: number, idSnippet: number) => void;
     getCodeOutput: (id: number) => IProcessedCommand[];
@@ -26,7 +26,7 @@ interface ICodeBlockProps {
     getCode: (id: number) => string;
 }
 
-class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
+class CodeBlock extends React.Component <ICodeBlockProps, {}> {
 
     private static blockCount: number = 0;
 
@@ -37,17 +37,17 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
     }
 
     public onChangeCode(code: string) {
-        this.props.changeCodeContent(this.state.id, code);
+        this.props.changeCodeContent(this.props.id, code);
     }
 
     public handleSendCommand() {
-        const code = this.props.getCode(this.state.id);
-        this.props.processCommandRequest(code, this.state.id);
+        const code = this.props.getCode(this.props.id);
+        this.props.processCommandRequest(code, this.props.id);
         return;
     }
 
     public handleSaveCode() {
-        const code = this.props.getCode(this.state.id);
+        const code = this.props.getCode(this.props.id);
         const name = prompt("Enter a name for the snippet");
         if (name) {
             this.props.saveCodeSnippetRequest(code, name);
@@ -60,15 +60,15 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
     public handleGetCodeSnippet() {
         const id = prompt("Enter id of the snippet to retreive");
         if (id) {
-            this.props.getCodeSnippetRequest(this.state.id, Number(id));
+            this.props.getCodeSnippetRequest(this.props.id, Number(id));
         } else {
             console.log("Enter a valid id");
         }
     }
 
     public render() {
-        const code = this.props.getCode(this.state.id);
-        const codeOutput = this.props.getCodeOutput(this.state.id);
+        const code = this.props.getCode(this.props.id);
+        const codeOutput = this.props.getCodeOutput(this.props.id);
         return (
             <div className={this.props.className}>
                 <CodeEditor code={code} onChange={(newCode) => this.onChangeCode(newCode)}/>
