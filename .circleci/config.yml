@@ -110,8 +110,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install AzureCLI
-        command: |
+          name: Install AzureCLI
+          command: |
             echo Installing AzureCLI...
             echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ jessie main" | \
             sudo tee /etc/apt/sources.list.d/azure-cli.list
@@ -119,8 +119,8 @@ jobs:
             sudo apt-get install apt-transport-https
             sudo apt-get update && sudo apt-get install azure-cli
       - run:
-        name: Deploy front
-        command: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source ./javanotebook-front/build/
+          name: Deploy front
+          command: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source ./javanotebook-front/build/
 
 
 workflows:
