@@ -97,7 +97,7 @@ jobs:
       # - run: cd javanotebook-front && npm test
       - run: cd javanotebook-front && npm run build
 
-      - run: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source "./javnotebook-front/build"
+      - run: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source "./javnotebook-front/build/"
 
 
       - persist_to_workspace:
