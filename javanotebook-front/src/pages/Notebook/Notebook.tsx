@@ -7,7 +7,7 @@ import { CodeBlock, Title } from '../../components';
 
 
 interface INotebookPageState {
-  code: string;
+  blockIds: number[];
 }
 
 interface INotebookPageProps {
@@ -16,9 +16,16 @@ interface INotebookPageProps {
 
 class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState> {
 
+  private static blockCount: number = 0;
+
+  public constructor(props: INotebookPageProps) {
+    super(props);
+    this.state = { blockIds: [0]};
+}
 
   public handleAddCodeBlocks() {
-    console.log("clicked");
+    NotebookPage.blockCount += 1;
+    this.setState({blockIds: [...this.state.blockIds, NotebookPage.blockCount]})
   }
   
   public render() {
@@ -28,8 +35,9 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
         <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleAddCodeBlocks()}>
             +
         </Button>
-        <CodeBlock />
-        <CodeBlock />
+        {(this.state.blockIds || []).map((id: number) => 
+            <CodeBlock key={`${id}-block`} id={id}/>
+        )}
       </div>
     );
   }
