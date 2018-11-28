@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import { CodeBlockToolbar } from './CodeBlockToolbar';
+import { StyledCodeBlockToolbar } from './CodeBlockToolbar';
 
 import { IStore } from '../../interfaces';
 
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(COMMANDS_ACTIONS.saveCodeSnippetRequest({codeSnippetContent, codeSnippetName}))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodeBlockToolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledCodeBlockToolbar);

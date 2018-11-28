@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-import Button from '@material-ui/core/Button';
+
+import IconButton from '@material-ui/core/IconButton';
+import styled from 'styled-components';
+
+import { Code, PlayArrow, Save} from '@material-ui/icons';
 
 
 interface ICodeBlockToolbar {
@@ -9,6 +13,7 @@ interface ICodeBlockToolbar {
     processCommandRequest: (command: string, id: number) => void;
     getCodeSnippetRequest: (id: number, idSnippet: number) => void;
     getCode: (id: number) => string;
+    className?: string;
 }
 
 class CodeBlockToolbar extends React.Component <ICodeBlockToolbar, {} >{
@@ -42,19 +47,29 @@ class CodeBlockToolbar extends React.Component <ICodeBlockToolbar, {} >{
 
     public render() {
         return (
-            <div>
-                <Button color="primary" onClick={() => this.handleSendCommand()}>
-                    Send
-                </Button>
-                <Button color="secondary" onClick={() => this.handleSaveCode()}>
-                    Save Code
-                </Button>
-                <Button color="secondary" onClick={() => this.handleGetCodeSnippet()}>
-                    Get Code
-                </Button>
+            <div className={this.props.className}>
+                <IconButton color="secondary" onClick={() => this.handleSendCommand()}>
+                    <PlayArrow />
+                </IconButton>
+                <IconButton color="secondary" onClick={() => this.handleSaveCode()}>
+                    <Save />
+                </IconButton>
+                <IconButton color="secondary" onClick={() => this.handleGetCodeSnippet()}>
+                    <Code />
+                </IconButton>
             </div>
         )
     }
 }
 
-export { CodeBlockToolbar };
+const StyledCodeBlockToolbar = styled(CodeBlockToolbar)`
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background: grey;
+    flex-direction: row-reverse;
+    align-content: center;
+    align-items: center;
+`;
+
+export { StyledCodeBlockToolbar };
