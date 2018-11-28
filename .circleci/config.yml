@@ -79,7 +79,7 @@ jobs:
       - run: cd javanotebook-front && npm install 
 
       - run:
-          name: Build and Deploy
+          name: Build
           command: |
             echo Installing AzureCLI...
             echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ jessie main" | \
@@ -97,13 +97,31 @@ jobs:
       # - run: cd javanotebook-front && npm test
       - run: cd javanotebook-front && npm run build
 
-      - run: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source ./javanotebook-front/build/
-
-
       - persist_to_workspace:
           root: ~/repo/javanotebook-front
           paths:
             - build/*
+
+  deploy_front:
+    machine:
+      enabled: true
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+        name: Install AzureCLI
+        command: |
+            echo Installing AzureCLI...
+            echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ jessie main" | \
+            sudo tee /etc/apt/sources.list.d/azure-cli.list
+            curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+            sudo apt-get install apt-transport-https
+            sudo apt-get update && sudo apt-get install azure-cli
+      - run:
+        name: Deploy front
+        command: az storage blob upload-batch --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_ACCESS_KEY  --destination \$web --source ./javanotebook-front/build/
+
 
 workflows:
   version: 2
@@ -111,3 +129,9 @@ workflows:
     jobs:
       - build_back
       - build_front
+      - deploy_front:
+        requires:
+          - build_front
+        filters:
+          branches:
+            only: master
