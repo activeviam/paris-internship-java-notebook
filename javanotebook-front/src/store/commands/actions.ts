@@ -7,6 +7,9 @@ import { IProcessedCommand } from '../../interfaces';
 export enum ActionTypes {
     CHANGE_CODE_CONTENT = 'CHANGE_CODE_CONTENT',
 
+    ADD_CODE_BLOCK = 'ADD_CODE_BLOCK',
+    DELETE_CODE_BLOCK = 'DELETE_CODE_CONTENT',
+
     PROCESS_COMMAND_REQUEST = 'PROCESS_COMMAND_REQUEST',
     PROCESS_COMMAND_SUCCESS = 'PROCESS_COMMAND_SUCCESS',
     PROCESS_COMMAND_FAILURE = 'PROCESS_COMMAND_FAILURE',
@@ -22,6 +25,9 @@ export enum ActionTypes {
 
 export const COMMANDS_ACTIONS = {
     changeCodeContent: (payload: IChangeCodeContent) => createAction(ActionTypes.CHANGE_CODE_CONTENT, payload),
+
+    addCodeBlock: (payload: IAddCodeBlock) => createAction(ActionTypes.ADD_CODE_BLOCK, payload),
+    deleteCodeBlock: (payload: IDeleteCodeBlock ) => createAction(ActionTypes.DELETE_CODE_BLOCK, payload),
 
     processingCommandFailure: () => createAction(ActionTypes.PROCESS_COMMAND_FAILURE),
     processingCommandRequest: (payload: IProcessingCommandRequestPayload) => createAction(ActionTypes.PROCESS_COMMAND_REQUEST, payload),
@@ -39,6 +45,14 @@ export const COMMANDS_ACTIONS = {
 export interface IChangeCodeContent {
     id: number;
     codeContent: string;
+}
+
+export interface IAddCodeBlock {
+    id: number;
+}
+
+export interface IDeleteCodeBlock {
+    id: number;
 }
 
 export interface IProcessingCommandRequestPayload {

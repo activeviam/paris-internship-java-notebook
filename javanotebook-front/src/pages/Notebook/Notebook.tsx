@@ -6,15 +6,17 @@ import Button from '@material-ui/core/Button';
 import { CodeBlock, Title } from '../../components';
 
 
-interface INotebookPageState {
+/* interface INotebookPageState {
   blockIds: number[];
-}
+} */
 
 interface INotebookPageProps {
   className?: string;
+  blockIds: number[];
+  addCodeBlock: (id: number) => void;
 }
 
-class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState> {
+class NotebookPage extends React.Component <INotebookPageProps, {} > {
 
   private static blockCount: number = 0;
 
@@ -25,7 +27,7 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
 
   public handleAddCodeBlocks() {
     NotebookPage.blockCount += 1;
-    this.setState({blockIds: [...this.state.blockIds, NotebookPage.blockCount]})
+    this.props.addCodeBlock(NotebookPage.blockCount);
   }
   
   public render() {
@@ -35,7 +37,7 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
         <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleAddCodeBlocks()}>
             +
         </Button>
-        {(this.state.blockIds || []).map((id: number) => 
+        {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>
         )}
       </div>
