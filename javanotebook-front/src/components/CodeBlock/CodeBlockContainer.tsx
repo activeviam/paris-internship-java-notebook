@@ -27,10 +27,6 @@ const mapStateToProps = (state: IStore) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
     changeCodeContent: (id: number, codeContent: string) => dispatch(COMMANDS_ACTIONS.changeCodeContent({id, codeContent})),
-    getCodeSnippetRequest: (id: number, idSnippet: number) => dispatch(COMMANDS_ACTIONS.getCodeSnippetRequest({id, idSnippet})),
-    processCommandRequest: (command: string, id: number) => dispatch(COMMANDS_ACTIONS.processingCommandRequest({command, id})),
-    saveCodeSnippetRequest: (codeSnippetContent: string, codeSnippetName: string) => 
-        dispatch(COMMANDS_ACTIONS.saveCodeSnippetRequest({codeSnippetContent, codeSnippetName})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StyledCodeBlock);
