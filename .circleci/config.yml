@@ -130,8 +130,8 @@ workflows:
       - build_back
       - build_front
       - deploy_front:
-        requires:
-          - build_front
-        filters:
-          branches:
-            only: master
+          requires:
+            - build_front
+          filters:
+            branches:
+              only: master
