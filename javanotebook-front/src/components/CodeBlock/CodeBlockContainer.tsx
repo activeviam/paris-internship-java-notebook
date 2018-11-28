@@ -11,14 +11,14 @@ import { COMMANDS_ACTIONS } from '../../store/commands';
 const mapStateToProps = (state: IStore) => {
     return {
         getCode: (id: number) => {
-            if (state.commandReducer.codeContent) {
-                return state.commandReducer.codeContent[id];
+            if (state.commandReducer.codeBlocks && state.commandReducer.codeBlocks[id]) {
+                return state.commandReducer.codeBlocks[id].codeContent;
             }
             return '// Enter your code here';
         },
         getCodeOutput: (id: number) => {
-            if (state.commandReducer.codeOutput) {
-                return state.commandReducer.codeOutput[id];
+            if (state.commandReducer.codeBlocks && state.commandReducer.codeBlocks[id]) {
+                return state.commandReducer.codeBlocks[id].codeOutput;
             }
             return null;
         },
