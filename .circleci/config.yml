@@ -99,6 +99,30 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - run: ls -a && pwd
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: cd javanotebook-front && npm install 
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "javanotebook-front/package.json" }}
+        
+      # run tests!
+      # - run: cd javanotebook-front && npm test
+      - run: cd javanotebook-front && npm run build
+
+      - persist_to_workspace:
+          root: ~/repo/javanotebook-front
+          paths:
+            - build/*
+
+      # deploy to azure
       - run:
           name: Install AzureCLI
           command: |
@@ -118,10 +142,11 @@ workflows:
   build-front-back:
     jobs:
       - build_back
-      - build_front
-      - deploy_front:
-          requires:
-            - build_front
+      - build_front:
           filters:
             branches:
-              only: master
+              ignore: master # build and run tests on all branches except master
+      - deploy_front:
+          filters:
+            branches:
+              only: master # build and deploy when you push on master
