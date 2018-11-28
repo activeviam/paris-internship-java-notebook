@@ -73,15 +73,17 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
             <div className={this.props.className}>
                 <CodeEditor code={code} onChange={(newCode) => this.onChangeCode(newCode)}/>
 
-                <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleSendCommand()}>
-                    Send
-                </Button>
-                <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleSaveCode()}>
-                    Save Code
-                </Button>
-                <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleGetCodeSnippet()}>
-                    Get Code
-                </Button>
+                <StyledButtonContainer>
+                    <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleSendCommand()}>
+                        Send
+                    </Button>
+                    <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleSaveCode()}>
+                        Save Code
+                    </Button>
+                    <Button variant="contained" color="secondary" className="App-ButtonSend" onClick={() => this.handleGetCodeSnippet()}>
+                        Get Code
+                    </Button>
+                </StyledButtonContainer>
                 <StyledCodeOutput codeOutput={codeOutput}/>
             </div>
         )
@@ -89,12 +91,19 @@ class CodeBlock extends React.Component <ICodeBlockProps, ICodeBlockState> {
 }
 
 const StyledCodeBlock = styled(CodeBlock)`
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        align-content: center;
-        margin: 20px;
-    `;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    margin: 20px;
+`;
+
+const StyledButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+`;
 
 export  { StyledCodeBlock };
