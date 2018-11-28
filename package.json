@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "start:front": "cd javanotebook-front && npm start",
+        "start:db": "cd javanotebook/docker && docker-compose up -d",
+        "start:back": "cd javanotebook && mvn",
+        "stop:db": "cd javanotebook/docker && docker-compose down",
+        "build:front": "cd javanotebook-front && npm run build",
+        "build:back": "cd javanotebook && mvn package -Dmaven.test.skip=true"
+    }
+}
