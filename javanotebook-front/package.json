@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.5.1",
+    "@material-ui/core": "^3.6.0",
     "@types/history": "^4.7.2",
     "@types/react-monaco-editor": "^0.16.0",
     "@types/react-redux": "^6.0.10",
-    "@types/redux": "^3.6.0",
+    "@types/redux": "^3.6.31",
     "@types/styled-components": "^4.1.1",
     "axios": "^0.18.0",
     "connected-react-router": "^4.5.0",
@@ -33,7 +33,8 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.10",
     "@types/react": "^16.7.7",
-    "@types/react-dom": "^16.0.10",
-    "typescript": "^3.1.6"
+    "@types/react-dom": "^16.0.11",
+    "typescript": "^3.1.6",
+    "merge": "1.2.1"
   }
 }
