@@ -15,6 +15,17 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             codeBlock = state.codeBlocks ? {...state.codeBlocks[id], codeContent: action.payload!.codeContent } : {codeContent: action.payload!.codeContent};
             codeBlocks = {...state.codeBlocks, [id]: codeBlock};
             return {...state, codeBlocks};
+        // CHANGE CODE BLOCKS
+        case ActionTypes.ADD_CODE_BLOCK:
+            id = action.payload!.id;
+            codeBlocks = {...state.codeBlocks, [id]: {}};
+            return {...state, codeBlocks};
+        case ActionTypes.DELETE_CODE_BLOCK:
+            id = action.payload!.id;
+            codeBlocks = state.codeBlocks;
+            codeBlocks = {...state.codeBlocks, [id]: null};
+            console.log(codeBlocks);
+            return {...state, codeBlocks};
         // COMMAND PROCESS 
         case ActionTypes.PROCESS_COMMAND_REQUEST:
             isProcessing = true;

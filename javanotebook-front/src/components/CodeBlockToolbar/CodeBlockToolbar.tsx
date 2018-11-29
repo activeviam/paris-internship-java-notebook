@@ -4,7 +4,7 @@ import * as React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
 
-import { Code, PlayArrow, Save} from '@material-ui/icons';
+import { Code, Delete, PlayArrow, Save} from '@material-ui/icons';
 
 
 interface ICodeBlockToolbar {
@@ -13,6 +13,7 @@ interface ICodeBlockToolbar {
     processCommandRequest: (command: string, id: number) => void;
     getCodeSnippetRequest: (id: number, idSnippet: number) => void;
     getCode: (id: number) => string;
+    deleteCodeBlock: (id: number) => void;
     className?: string;
 }
 
@@ -32,6 +33,11 @@ class CodeBlockToolbar extends React.Component <ICodeBlockToolbar, {} >{
         } else {
             console.log("You must enter a valid name");
         }
+        return;
+    }
+
+    public handleDeleteCodeBlock() {
+        this.props.deleteCodeBlock(this.props.id);
         return;
     }
 
@@ -56,6 +62,9 @@ class CodeBlockToolbar extends React.Component <ICodeBlockToolbar, {} >{
                 </IconButton>
                 <IconButton color="secondary" onClick={() => this.handleGetCodeSnippet()}>
                     <Code />
+                </IconButton>
+                <IconButton color="secondary" onClick={() => this.handleDeleteCodeBlock()}>
+                    <Delete />
                 </IconButton>
             </div>
         )
