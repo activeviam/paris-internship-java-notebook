@@ -4,7 +4,19 @@ import com.utils.JShellExecutor;
 
 public interface JShellService {
 
-    public abstract void createJse(String id);
-    public abstract JShellExecutor getJse(String id);
+	/**
+	 * Creates a new {@link JShellExecutor jse} for a session.
+	 *
+	 * @param id the session token, unique to each notebook.
+	 */
+    void createJse(String id);
+
+	/**
+	 * Returns the {@link JShellExecutor jse} of the requested notebook, identified by session id.
+	 *
+	 * @param id The session id.
+	 * @return The jse of the requested notebook, identified by session id.
+	 */
+    JShellExecutor getJse(String id);
     
 }
