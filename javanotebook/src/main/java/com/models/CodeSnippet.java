@@ -10,26 +10,82 @@ import javax.persistence.Table;
 @Table(name = "code_snippet")
 public class CodeSnippet {
 
+	/** The auto-generated id of the code snippet */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /** The content of this code snippet */
     private String content;
+    /** The name of this code snippet */
     private String name;
 
-    public CodeSnippet() {
-    }
+    /**
+     * Empty constructor of {@link CodeSnippet}.
+     */
+    public CodeSnippet() {}
 
+    /**
+     * Constructor of {@link CodeSnippet}.
+     *
+     * @param content The content of the code snippet
+     * @param name The name of the code snippet
+     */
     public CodeSnippet(String content, String name) {
         this.content = content;
         this.name = name;
     }
 
-    public String getContent(){ return this.content; }
-    public String getName(){ return this.name; }
-    public Long getId(){ return this.id; }
+    /**
+     * Returns the content of the code snippet.
+     *
+     * @return the content of the code snippet.
+     */
+    public String getContent(){
+    	return this.content;
+    }
 
-    public void setContent(String content){ this.content = content;}
-    public void setName(String name){ this.name = name;}
-    public void setId(Long id){ this.id = id;}
+    /**
+     * Returns the name of the code snippet
+     *
+     * @return the name of the code snippet
+     */
+    public String getName(){
+    	return this.name;
+    }
+
+    /**
+     * Returns the id of the code snippet
+     *
+     * @return the id of the code snippet
+     */
+    public Long getId(){
+    	return this.id;
+    }
+
+    /**
+     * Sets the content of the code snippet
+     *
+     * @param content the content of the code snippet
+     */
+    public void setContent(String content){
+    	this.content = content;
+    }
+
+    /**
+     * Sets the name of the code snippet
+     *
+     * @param name the name of the code snippet
+     */
+    public void setName(String name){
+    	this.name = name;
+    }
+
+    /**
+     * Sets the id of the code snippet
+     *
+     * @param id the id of the code snippet
+     */
+    public void setId(Long id){
+    	this.id = id;
+    }
 }
