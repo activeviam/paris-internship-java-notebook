@@ -18,5 +18,10 @@ export function notebookReducer(state: INotebookStore = {}, action: Actions): IN
             isLoading = false;
             isLoadingError = false;
             return {...state, isLoading, isLoadingError, noteBooks: action.payload!.notebookList}
+<<<<<<< Updated upstream
+=======
+        default:
+            return state;
+>>>>>>> Stashed changes
     } 
 }
