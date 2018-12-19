@@ -4,7 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "code_snippet")
@@ -18,6 +22,14 @@ public class CodeSnippet {
     private String content;
     /** The name of this code snippet */
     private String name;
+    /** The position of this code snippet inside the notebook*/
+    private Integer position;
+
+    /** The notebook of this code snippet*/
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "notebook_id")
+    private Notebook notebook;
 
     /**
      * Empty constructor of {@link CodeSnippet}.
@@ -33,6 +45,14 @@ public class CodeSnippet {
     public CodeSnippet(String content, String name) {
         this.content = content;
         this.name = name;
+    }
+
+
+    public CodeSnippet(String content, String name, Notebook notebook, Integer position) {
+        this.content = content;
+        this.name = name;
+        this.notebook = notebook;
+        this.position = position;
     }
 
     /**
@@ -63,6 +83,24 @@ public class CodeSnippet {
     }
 
     /**
+     * Returns the position of the code snippet
+     *
+     * @return the position of the code snippet
+     */
+    public Integer getPosition(){
+    	return this.position;
+    }
+
+    /**
+     * Returns the notebook of the code snippet
+     *
+     * @return the notebook of the code snippet
+     */
+    public Notebook getNotebook(){
+    	return this.notebook;
+    }
+
+    /**
      * Sets the content of the code snippet
      *
      * @param content the content of the code snippet
@@ -87,5 +125,23 @@ public class CodeSnippet {
      */
     public void setId(Long id){
     	this.id = id;
+    }
+
+    /**
+     * Sets the position of the code snippet
+     *
+     * @param position the position of the code snippet
+     */
+    public void setPosition(Integer position){
+    	this.position = position;
+    }
+
+    /**
+     * Sets the notebook of the code snippet
+     *
+     * @param notebook the notebook of the code snippet
+     */
+    public void setNotebook(Notebook notebook){
+    	this.notebook = notebook;
     }
 }
