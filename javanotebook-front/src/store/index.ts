@@ -8,7 +8,8 @@ import { persistStore } from 'redux-persist'; // persistReducer
 
 // import storage from 'redux-persist/lib/storage';
 
-import { commandReducer, commandSaga} from '../store/commands';
+import { commandReducer, commandSaga } from '../store/commands';
+import { notebookReducer, notebookSaga } from '../store/notebooks';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,6 +21,7 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducer = connectRouter(history)(
     combineReducers({
         commandReducer,
+        notebookReducer,
     }));
 
 // const pReducer = persistReducer(persistConfig, rootReducer);
@@ -36,4 +38,5 @@ export const store = createStore(
 export const persistor = persistStore(store);
 
 sagaMiddleware.run(commandSaga);
+sagaMiddleware.run(notebookSaga);
 
