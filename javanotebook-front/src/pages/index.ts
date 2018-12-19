@@ -1,2 +1,2 @@
 export { default as NotebookPage } from './Notebook/NotebookContainer';
-export { default as NotebookSelectionPage } from './NotebookSelection/NotebookSelection';
+export { default as NotebookSelectionPage } from './NotebookSelection/NotebookSelectionContainer';

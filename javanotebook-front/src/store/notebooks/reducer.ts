@@ -15,13 +15,11 @@ export function notebookReducer(state: INotebookStore = {}, action: Actions): IN
             isLoadingError = false;
             return {...state, isLoading, isLoadingError};
         case ActionTypes.GET_NOTEBOOK_LIST_SUCCESS:
+            console.log(action.payload);
             isLoading = false;
             isLoadingError = false;
             return {...state, isLoading, isLoadingError, noteBooks: action.payload!.notebookList}
-<<<<<<< Updated upstream
-=======
         default:
-            return state;
->>>>>>> Stashed changes
+           return state;
     } 
 }

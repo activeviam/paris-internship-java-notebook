@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import { NotebookPage } from './pages';
+import { NotebookSelectionPage } from './pages';
 
 class App extends React.Component <{}, {}> {
 
@@ -10,7 +10,7 @@ class App extends React.Component <{}, {}> {
   public render() {
     return (
       <div>
-        <NotebookPage />
+        <NotebookSelectionPage />
       </div>
     );
   }
