@@ -16,13 +16,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "notebook")
 public class Notebook {
 
-	/** The auto-generated id of the code snippet */
+	/** The auto-generated id of the notebook */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /** The description of this code snippet */
+    /** The description of this notebook */
     private String description;
-    /** The name of this code snippet */
+    /** The name of this notebook */
     private String name;
 
     @JsonManagedReference
@@ -37,8 +37,8 @@ public class Notebook {
     /**
      * Constructor of {@link Notebook}.
      *
-     * @param description The description of the code snippet
-     * @param name The name of the code snippet
+     * @param description The description of the notebook
+     * @param name The name of the notebook
      */
     public Notebook(String description, String name) {
         this.description = description;
@@ -46,72 +46,72 @@ public class Notebook {
     }
 
     /**
-     * Returns the description of the code snippet.
+     * Returns the description of the notebook.
      *
-     * @return the description of the code snippet.
+     * @return the description of the notebook.
      */
     public String getDescription(){
     	return this.description;
     }
 
     /**
-     * Returns the name of the code snippet
+     * Returns the name of the notebook
      *
-     * @return the name of the code snippet
+     * @return the name of the notebook
      */
     public String getName(){
     	return this.name;
     }
 
     /**
-     * Returns the id of the code snippet
+     * Returns the id of the notebook
      *
-     * @return the id of the code snippet
+     * @return the id of the notebook
      */
     public Long getId(){
     	return this.id;
     }
 
     /**
-     * Returns the code_snippets of the code snippet
+     * Returns the code_snippets of the notebook
      *
-     * @return the code_snippets of the code snippet
+     * @return the code_snippets of the notebook
      */
     public Set<CodeSnippet> getCodeSnippets(){
     	return this.codeSnippets;
     }
 
     /**
-     * Sets the description of the code snippet
+     * Sets the description of the notebook
      *
-     * @param description the description of the code snippet
+     * @param description the description of the notebook
      */
     public void setDescription(String description){
     	this.description = description;
     }
 
     /**
-     * Sets the name of the code snippet
+     * Sets the name of the notebook
      *
-     * @param name the name of the code snippet
+     * @param name the name of the notebook
      */
     public void setName(String name){
     	this.name = name;
     }
 
     /**
-     * Sets the id of the code snippet
+     * Sets the id of the notebook
      *
-     * @param id the id of the code snippet
+     * @param id the id of the notebook
      */
     public void setId(Long id){
     	this.id = id;
     }
 
     /**
-     * Sets the codeSnippets of the code snippet
+     * Sets the codeSnippets of the notebook
      *
-     * @param codeSnippets the codeSnippets of the code snippet
+     * @param codeSnippets the codeSnippets of the notebook
      */
     public void setCodeSnippets(Set<CodeSnippet> codeSnippets){
     	this.codeSnippets = codeSnippets;
