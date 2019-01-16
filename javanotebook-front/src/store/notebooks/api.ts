@@ -8,6 +8,15 @@ const getNotebookList = async () => {
     return rep;
 }
 
+
+const createNewNotebook = async(name: string, description?: string) => {
+    const url = BACK_URL + '/notebook/save';
+    const rep = await axios.post(url, {name, description, codeSnippets: []});
+    console.log("api notebook creation rep", rep);
+    return rep
+}
+
 export const API = {
+    createNewNotebook,
     getNotebookList,
 }

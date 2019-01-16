@@ -15,10 +15,16 @@ export function notebookReducer(state: INotebookStore = {}, action: Actions): IN
             isLoadingError = false;
             return {...state, isLoading, isLoadingError};
         case ActionTypes.GET_NOTEBOOK_LIST_SUCCESS:
-            console.log(action.payload);
             isLoading = false;
             isLoadingError = false;
-            return {...state, isLoading, isLoadingError, noteBooks: action.payload!.notebookList}
+            return {...state, isLoading, isLoadingError, noteBooks: action.payload!.notebookList};
+
+        case ActionTypes.CREATE_NEW_NOTEBOOK_FAILURE:
+            return {...state};
+        case ActionTypes.CREATE_NEW_NOTEBOOK_REQUEST:
+            return {...state};
+        case ActionTypes.CREATE_NEW_NOTEBOOK_SUCCESS:
+            return {...state};
         default:
            return state;
     } 

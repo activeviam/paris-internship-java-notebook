@@ -11,9 +11,15 @@ interface  INotebookCardProps {
     className?: string;
     id: number;
     title: string;
+    openNotebook: (index: number) => void;
 }
 
 class NotebookCard extends React.Component <INotebookCardProps, {}> {
+
+    public handleOpenNotebook() {
+        this.props.openNotebook(this.props.id);
+        return;
+    }
 
     public render() {
         return (
@@ -26,7 +32,7 @@ class NotebookCard extends React.Component <INotebookCardProps, {}> {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={() => this.handleOpenNotebook()}>
                     Open Notebook
                  </Button>
             </CardActions>

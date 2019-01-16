@@ -1,7 +1,7 @@
 import { ActionCreatorsMapObject } from 'redux';
 import { createAction } from '../utils';
 
-import { IProcessedCommand } from '../../interfaces';
+import { INotebook, IProcessedCommand } from '../../interfaces';
 
 // Actions type 
 export enum ActionTypes {
@@ -21,6 +21,8 @@ export enum ActionTypes {
     GET_CODE_SNIPPET_REQUEST = 'GET_CODE_SNIPPET_REQUEST',
     GET_CODE_SNIPPET_SUCCESS = 'GET_CODE_SNIPPET_SUCCESS',
     GET_CODE_SNIPPET_FAILURE = 'GET_CODE_SNIPPET_FAILURE',
+
+    OPEN_NOTEBOOK = 'OPEN_NOTEBOOK',
 }
 
 export const COMMANDS_ACTIONS = {
@@ -40,6 +42,12 @@ export const COMMANDS_ACTIONS = {
     getCodeSnippetFailure: () => createAction(ActionTypes.GET_CODE_SNIPPET_FAILURE),
     getCodeSnippetRequest: (payload: IGetCodeSnippetRequest) => createAction(ActionTypes.GET_CODE_SNIPPET_REQUEST, payload),
     // getCodeSnippetSuccess: (payload: IGetCodeSnippetSuccess) => createAction(ActionTypes.GET_CODE_SNIPPET_SUCCESS, payload),
+
+    openNotebook: (payload: IOpenNotebook) => createAction(ActionTypes.OPEN_NOTEBOOK, payload),
+}
+
+export interface IOpenNotebook {
+    notebook: INotebook;
 }
 
 export interface IChangeCodeContent {

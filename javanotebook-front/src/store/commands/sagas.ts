@@ -2,6 +2,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { ActionTypes, COMMANDS_ACTIONS } from './actions';
 
+import { push } from 'connected-react-router';
+
 import { API } from './api';
 
 export function* processCommandRequest(params: any): Iterator<any> {
@@ -33,8 +35,13 @@ export function* getCodeSnippetRequest(params: any): Iterator<any> {
     }
 }
 
+export function* goToNotebook(): Iterator<any> {
+    yield put(push("/notebook"));
+}
+
 export function* commandSaga(): Iterator<any> {
     yield takeEvery(ActionTypes.PROCESS_COMMAND_REQUEST, processCommandRequest);
     yield takeEvery(ActionTypes.SAVE_CODE_SNIPPET_REQUEST, saveCodeSnippetRequest);
     yield takeEvery(ActionTypes.GET_CODE_SNIPPET_REQUEST, getCodeSnippetRequest);
+    yield takeEvery(ActionTypes.OPEN_NOTEBOOK, goToNotebook);
 }

@@ -8,5 +8,8 @@
         "build:back": "cd javanotebook && mvn package -Dmaven.test.skip=true",
         "build:docker:back": "cd javanotebook && mvn package -Dmaven.test.skip=true && docker build -t docker-java-notebook .",
         "start:docker:prod": "cd javanotebook/docker && docker-compose -f docker-compose.prod.yml up -d && sleep 10"
+    },
+    "dependencies": {
+        "@types/react-router-dom": "^4.3.1"
     }
 }

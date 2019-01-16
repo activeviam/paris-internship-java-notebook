@@ -1,6 +1,6 @@
 export interface INotebook {
     id: string;
-    title: string;
+    name: string;
     description: string;
     codeSnippets?: string[];
 }
