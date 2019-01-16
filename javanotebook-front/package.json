@@ -8,6 +8,7 @@
     "@types/history": "^4.7.2",
     "@types/react-monaco-editor": "^0.16.0",
     "@types/react-redux": "^6.0.10",
+    "@types/react-router-dom": "^4.3.1",
     "@types/redux": "^3.6.31",
     "@types/styled-components": "^4.1.1",
     "axios": "^0.18.0",
