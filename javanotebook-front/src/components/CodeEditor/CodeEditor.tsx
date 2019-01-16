@@ -11,7 +11,7 @@ interface ICodeEditorProps {
     className?: string;
 }
 
-export class CodeEditor extends React.Component <ICodeEditorProps, {}> {
+class CodeEditor extends React.Component <ICodeEditorProps, {}> {
 
     public onChangeCode(value: string) {
         if (this.props.onChange) {
@@ -53,4 +53,4 @@ const StyledCodeEditor = styled(CodeEditor)`
     width: 100%;
 `;
 
-export { StyledCodeEditor };
+export { CodeEditor, StyledCodeEditor };
