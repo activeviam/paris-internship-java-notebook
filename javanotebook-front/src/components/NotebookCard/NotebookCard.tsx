@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-<<<<<<< HEAD
 import styled from 'styled-components';
 
-=======
->>>>>>> master
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -16,10 +13,7 @@ interface  INotebookCardProps {
     className?: string;
     id: number;
     title: string;
-<<<<<<< HEAD
     description?: string;
-=======
->>>>>>> master
     openNotebook: (index: number) => void;
 }
 
@@ -32,7 +26,6 @@ class NotebookCard extends React.Component <INotebookCardProps, {}> {
 
     public render() {
         return (
-<<<<<<< HEAD
         <div className={this.props.className}>
             <Card>
                 <CardActionArea>
@@ -52,31 +45,12 @@ class NotebookCard extends React.Component <INotebookCardProps, {}> {
                 </CardActions>
             </Card>
         </div>
-=======
-        <Card className={this.props.className}>
-            <CardActionArea>
-                <CardContent>
-                    <Typography gutterBottom={true} variant="h5" component="h2">
-                        {this.props.title}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary" onClick={() => this.handleOpenNotebook()}>
-                    Open Notebook
-                 </Button>
-            </CardActions>
-        </Card>
->>>>>>> master
         )
     }
 }
 
-<<<<<<< HEAD
 const StyledNotebookCard = styled(NotebookCard)`
     padding: 20px;
 `
 export default StyledNotebookCard;
-=======
-export { NotebookCard };
->>>>>>> master
+
