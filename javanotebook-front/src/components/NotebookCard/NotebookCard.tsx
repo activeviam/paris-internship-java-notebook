@@ -14,13 +14,13 @@ interface  INotebookCardProps {
     id: number;
     title: string;
     description?: string;
-    openNotebook: (index: number) => void;
+    openNotebook: () => void;
 }
 
 class NotebookCard extends React.Component <INotebookCardProps, {}> {
 
     public handleOpenNotebook() {
-        this.props.openNotebook(this.props.id);
+        this.props.openNotebook();
         return;
     }
 

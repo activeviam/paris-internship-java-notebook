@@ -28,6 +28,7 @@ class NotebookSelectionPage extends React.Component < INotebookSelectionPageProp
 
     public handleOpenNotebook(index: number){
         const noteBook: INotebook = this.props.noteBooks[index];
+        console.log("open notebook", index, noteBook, this.props.noteBooks);
         this.props.openNotebook(noteBook);
 
     }
@@ -60,7 +61,7 @@ class NotebookSelectionPage extends React.Component < INotebookSelectionPageProp
                             id={notebook.id}
                             title={notebook.name}
                             description={notebook.description}
-                            openNotebook={(num: number) => this.handleOpenNotebook(num)} />
+                            openNotebook={() => this.handleOpenNotebook(index)} />
                     )}
                 </Grid>
                 <ButtonContainer>
