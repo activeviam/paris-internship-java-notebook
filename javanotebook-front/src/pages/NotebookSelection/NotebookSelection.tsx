@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+
+import styled from 'styled-components';
+
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -48,19 +51,38 @@ class NotebookSelectionPage extends React.Component < INotebookSelectionPageProp
         console.log("render", this.props.noteBooks);
         return (
 
-            <div>
+            <div className={this.props.className}>
                 <Title title={"Notebook Selection"} />
                 <Grid container={true} justify="flex-start">
                     {(this.props.noteBooks || []).map((notebook:any, index: number) => 
-                        <NotebookCard key={index} id={notebook.id} title={notebook.name} openNotebook={(num: number) => this.handleOpenNotebook(num)} />
+                        <NotebookCard
+                            key={index}
+                            id={notebook.id}
+                            title={notebook.name}
+                            description={notebook.description}
+                            openNotebook={(num: number) => this.handleOpenNotebook(num)} />
                     )}
                 </Grid>
-                <Button color="primary" onClick={() => this.handleCreateNotebook()}>
-                    +
-                </Button>
+                <ButtonContainer>
+                    <Button variant="contained" color="primary" onClick={() => this.handleCreateNotebook()}>
+                        +
+                    </Button>
+                </ButtonContainer>
+
             </div>
         )
     }
 }
 
-export default NotebookSelectionPage;
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const StyledNotebookSelectionPage = styled(NotebookSelectionPage)`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+`;
+
+export default StyledNotebookSelectionPage;
