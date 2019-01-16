@@ -42,6 +42,13 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             isProcessing = false;
             isProcessingError = true;
             return {...state, isProcessing, isProcessingError};
+
+        case ActionTypes.OPEN_NOTEBOOK:
+            codeBlocks = {};
+            (action.payload!.notebook.codeSnippets || []).map((value, index) => {
+                codeBlocks[index.toString()] = {codeContent: value};
+            });
+            return {...state, codeBlocks};
         default:
             return state;
     }

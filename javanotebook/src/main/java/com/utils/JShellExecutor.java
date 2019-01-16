@@ -2,35 +2,34 @@ package com.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.stream.*;
-
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.models.CommandOutput;
+
+import jdk.jshell.Diag;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
-import jdk.jshell.Diag;
-
-import com.models.CommandOutput;
 
 
 public class JShellExecutor {
+	
+	/** The UTF-8 encoding */
+	public static final String UTF8 = "UTF-8";
 
-    private List<SnippetEvent> events;
-    private List<CommandOutput> output;
     private ByteArrayOutputStream baosOut = new ByteArrayOutputStream();
-    private Stream<Diag> diagnosticsStream;
-    private List<Diag> diagnosticsList;
-    private String errorText;
+	/** The underlying jshell */
     private JShell jshell;
-    private PrintStream outstream;
 
-
+	/**
+	 * Constructor of {@link JShellExecutor}.
+	 */
     public JShellExecutor() {
         try {
-           outstream = new PrintStream(baosOut, true, "UTF-8");
+           final PrintStream outstream = new PrintStream(baosOut, true, UTF8);
            jshell = JShell.builder().out(outstream).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,64 +39,76 @@ public class JShellExecutor {
 
     public List<CommandOutput> evaluateCommand(String input){
             String content = input;
-            events = new ArrayList<SnippetEvent>();
-            output = new ArrayList<CommandOutput>();
+            final List<SnippetEvent> events = new ArrayList<>();
+            final List<CommandOutput> output = new ArrayList<>();
             while (true) {
-                SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
+                final SourceCodeAnalysis.CompletionInfo an = jshell.sourceCodeAnalysis().analyzeCompletion(content);
                 if (!an.completeness().isComplete()) {
                     break;
                 }
-                for(SnippetEvent e: jshell.eval(trimNewlines(an.source()))){
-                    events.add(e);
-                    CommandOutput co = new CommandOutput();
-                    co.setStatus(e.status().toString());
-                    co.setCommand(e.snippet().source());
-                    String rep;
-                    try {
-                        switch (e.status()){
-                            case VALID:
-                                rep = new String(baosOut.toByteArray(), "UTF-8");
-                                co.setOutput(rep);
-                                break;
-                            case REJECTED:
-                                diagnosticsStream = jshell.diagnostics(e.snippet());
-                                diagnosticsList = diagnosticsStream.collect(Collectors.toList());
-                                errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
-                                diagnosticsStream.close();
-                                co.setOutput("Error: " + errorText);
-                                break;
-                            case OVERWRITTEN:
-                                co.setOutput("Overwritten class");
-                                break;
-                            default:
-                                diagnosticsStream = jshell.diagnostics(e.snippet());
-                                diagnosticsList = diagnosticsStream.collect(Collectors.toList());
-                                errorText = diagnosticsList.get(0).getMessage(Locale.ENGLISH);
-                                diagnosticsStream.close();
-                                if (diagnosticsList.get(0).isError()) {
-                                    co.setStatus("ERROR");
-                                }
-                                else {
-                                    co.setStatus("WARNING");
-                                }
-                                co.setOutput("Error: " + errorText);
-                                break;
-                        }
-                        baosOut.reset();
-                    }
-                    catch (Exception ex){
-                        ex.printStackTrace();
-                    }
-                    output.add(co);
+                for(SnippetEvent event: jshell.eval(trimNewlines(an.source()))){
+                    events.add(event);
+                    output.add(createCommandOutput(event));
                 }
                 if (an.remaining().isEmpty()) {
                     break;
                 }
                 content = an.remaining();
             }
-        return output;
-       }
+		return output;
+	}
 
+
+	/**
+	 * Creates the command output from the event.
+	 *
+	 * @param event the event
+	 * @return the command output
+	 */
+	private CommandOutput createCommandOutput(SnippetEvent event) {
+		final CommandOutput co = new CommandOutput();
+		co.setStatus(event.status().toString());
+		co.setCommand(event.snippet().source());
+		try {
+		    switch (event.status()){
+		        case VALID:
+					final String rep = new String(baosOut.toByteArray(), UTF8);
+		            co.setOutput(rep);
+		            break;
+		        case REJECTED:
+		        	final String rejectedErrorText = jshell.diagnostics(event.snippet())
+						.findFirst()
+						.get()
+						.getMessage(Locale.ENGLISH);
+		            co.setOutput("Error: " + rejectedErrorText);
+		            break;
+		        case OVERWRITTEN:
+		            co.setOutput("Overwritten class");
+		            break;
+		        default:
+					final Diag diagnostic = jshell.diagnostics(event.snippet()).findFirst().get();
+					if (diagnostic.isError()) {
+		                co.setStatus("ERROR");
+		            }
+		            else {
+		                co.setStatus("WARNING");
+		            }
+					co.setOutput("Error: " + diagnostic.getMessage(Locale.ENGLISH));
+		            break;
+		    }
+		    baosOut.reset();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return co;
+	}
+
+    /**
+     * Removes the new lines at the beginning and end of the string.
+     *
+     * @param s the string to trim
+     * @return the trimmed string
+     */
     private String trimNewlines(String s) {
         int b = 0;
         while (b < s.length() && s.charAt(b) == '\n') {
