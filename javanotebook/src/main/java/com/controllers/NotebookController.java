@@ -1,11 +1,14 @@
 package com.controllers;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.models.CodeSnippet;
 import com.models.Notebook;
 import com.models.dto.CodeSnippetVM;
+import com.models.dto.NotebookUpdateVM;
 import com.models.dto.NotebookVM;
 import com.repository.CodeSnippetRepository;
 import com.repository.NotebookRepository;
@@ -46,6 +49,33 @@ public class NotebookController {
         for(Integer i = 0; i < codeSnippets.size(); i++) {
             String snippetName = notebook.getName() + "-" + i.toString();
             CodeSnippet codeSnippet = new CodeSnippet(codeSnippets.get(i), snippetName, notebook, i);
+            this.codeSnippetRepository.save(codeSnippet);
+        }
+
+        return true;
+    }
+
+    /** Update a notebook in the database */
+    @PostMapping(path="/update")
+    public @ResponseBody boolean command(@RequestBody NotebookUpdateVM notebookVM) {
+        // Notebook codeSnippet = new CodeSnippet(codeSnippetVM.getContent(), codeSnippetVM.getName());
+        // this.notebookRepository.save(codeSnippet);
+
+        Notebook notebook = this.notebookRepository.findById(notebookVM.getId()).get();
+        if (notebook == null){
+            return false;
+        }
+        Iterator<CodeSnippet> codeSnippets = notebook.getCodeSnippets().iterator();
+        while(codeSnippets.hasNext()) {
+            this.codeSnippetRepository.delete(codeSnippets.next());
+        }
+        notebook.setName(notebookVM.getName());
+        notebook.setDescription(notebookVM.getDescription());
+        notebook = this.notebookRepository.save(notebook);
+        List<String> codeSnippetsVM = notebookVM.getCodeSnippet();
+        for(Integer i = 0; i < codeSnippetsVM.size(); i++) {
+            String snippetName = notebook.getName() + "-" + i.toString();
+            CodeSnippet codeSnippet = new CodeSnippet(codeSnippetsVM.get(i), snippetName, notebook, i);
             this.codeSnippetRepository.save(codeSnippet);
         }
 
