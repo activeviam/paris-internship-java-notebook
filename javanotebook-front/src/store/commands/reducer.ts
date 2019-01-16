@@ -48,12 +48,16 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
         case ActionTypes.OPEN_NOTEBOOK:
             codeBlocks = {};
             currentNotebook = parseInt(action.payload!.notebook.id);
-            (action.payload!.notebook.codeSnippets || []).map((value, index) => {
-                codeBlocks[index.toString()] = {codeContent: value};
+            (action.payload!.notebook.codeSnippets || []).map((snippet, index) => {
+                codeBlocks[index.toString()] = {codeContent: snippet.content};
             });
             return {...state, codeBlocks, currentNotebook};
-        case ActionTypes.SAVE_NOTEBOOK:
+        case ActionTypes.SAVE_CODE_SNIPPET_FAILURE:
             return {...state};
+        case ActionTypes.SAVE_NOTEBOOK_REQUEST:
+            return {...state};
+        case ActionTypes.SAVE_CODE_SNIPPET_SUCCESS:
+        return {...state};
         default:
             return state;
     }
