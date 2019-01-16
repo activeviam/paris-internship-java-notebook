@@ -22,8 +22,16 @@ const getCodeSnippet = async (id: number) => {
     return rep;
 }
 
+const saveNotebook = async (id: string, name: string, description: string, codeSnippets: any) => {
+    const url = BACK_URL + '/notebook/update';
+    const rep = await axios.post(url, {id, name, description, codeSnippets});
+    console.log("api update rep", rep);
+    return rep;
+}
+
 export const API = {
     getCodeSnippet,
     saveCodeSnippet,
-    sendCommand
+    sendCommand,
+    saveNotebook,
 }

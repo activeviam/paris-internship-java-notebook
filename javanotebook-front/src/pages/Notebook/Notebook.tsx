@@ -1,9 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Button from '@material-ui/core/Button';
-
-import { CodeBlock, Title } from '../../components';
+import { ActionBar, CodeBlock, Title } from '../../components';
 
 
 /* interface INotebookPageState {
@@ -34,9 +32,8 @@ class NotebookPage extends React.Component <INotebookPageProps, {} > {
     return (
       <div className={this.props.className}>
         <Title title={"Java Notebook"}/>
-        <Button variant="contained" color="primary" className="App-ButtonSend" onClick={() => this.handleAddCodeBlocks()}>
-            +
-        </Button>
+        <ActionBar 
+          addCodeBlock={() => this.handleAddCodeBlocks()}/>
         {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>
         )}
@@ -52,7 +49,6 @@ const StyledNotebookPage = styled(NotebookPage)`
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    margin: 50px;
   `;
 
 export default StyledNotebookPage;
