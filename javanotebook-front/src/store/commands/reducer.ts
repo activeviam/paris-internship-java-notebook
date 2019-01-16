@@ -45,8 +45,8 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
 
         case ActionTypes.OPEN_NOTEBOOK:
             codeBlocks = {};
-            (action.payload!.notebook.codeSnippets || []).map((value, index) => {
-                codeBlocks[index.toString()] = {codeContent: value};
+            (action.payload!.notebook.codeSnippets || []).map((snippet, index) => {
+                codeBlocks[index.toString()] = {codeContent: snippet.content};
             });
             return {...state, codeBlocks};
         default:
