@@ -47,7 +47,8 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
 
         case ActionTypes.OPEN_NOTEBOOK:
             codeBlocks = {};
-            currentNotebook = parseInt(action.payload!.notebook.id, 0);
+            // currentNotebook = parseInt(action.payload!.notebook.id, 0);
+            currentNotebook = action.payload!.notebook.id;
             (action.payload!.notebook.codeSnippets || []).map((content, index) => {
                 codeBlocks[index] = {codeContent: content};
             });

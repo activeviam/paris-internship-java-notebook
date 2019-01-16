@@ -1,5 +1,5 @@
 export interface INotebook {
-    id: string;
+    id: number;
     name: string;
     description: string;
     codeSnippets?: string[];

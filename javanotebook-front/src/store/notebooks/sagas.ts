@@ -8,8 +8,10 @@ export function* getNotebookListRequest(params: any): Iterator<any> {
     try {
         const rep = yield call(API.getNotebookList);
         const data = rep.data.map((notebookReceived: any) => 
-        ({...notebookReceived, codeSnippets: (notebookReceived.codeSnippets ).map((snippet: any) => 
-            (snippet.content)
+        ({...notebookReceived, codeSnippets: (notebookReceived.codeSnippets || []).sort((snippet1: any, snippet2: any) => 
+            (snippet1.position > snippet2.position ? 1 : snippet1 === snippet2.position ? 0 : -1))
+            .map((snippet: any) => 
+                (snippet.content)
         )}));
         yield put(NOTEBOOK_ACTIONS.getNotebookSuccess({notebookList: data}))
     } catch (error) {

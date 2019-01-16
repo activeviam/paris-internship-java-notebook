@@ -10,7 +10,9 @@ import { COMMANDS_ACTIONS } from '../../store/commands'
 
 const mapStateToProps = (state: IStore) => {
     const codeBlocks = state.commandReducer.codeBlocks ? state.commandReducer.codeBlocks : {};
-    const notebook = state.commandReducer.currentNotebook && state.notebookReducer.noteBooks ? state.notebookReducer.noteBooks[state.commandReducer.currentNotebook] : null;
+    const notebook = state.commandReducer.currentNotebook && state.notebookReducer.noteBooks ? 
+            state.notebookReducer.noteBooks.filter((notebook1: INotebook) => (notebook1.id === state.commandReducer.currentNotebook))[0]
+        : null;
     return {
         blockIds: Object.keys(codeBlocks).filter(key => codeBlocks[key]!== null).map(key => Number(key)),
         notebook,
