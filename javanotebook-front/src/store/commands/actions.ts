@@ -47,9 +47,9 @@ export const COMMANDS_ACTIONS = {
     // getCodeSnippetSuccess: (payload: IGetCodeSnippetSuccess) => createAction(ActionTypes.GET_CODE_SNIPPET_SUCCESS, payload),
 
     openNotebook: (payload: IOpenNotebook) => createAction(ActionTypes.OPEN_NOTEBOOK, payload),
-    saveNotebookFailure: () => createAction(ActionTypes.SAVE_CODE_SNIPPET_FAILURE),
+    saveNotebookFailure: () => createAction(ActionTypes.SAVE_NOTEBOOK_FAILURE),
     saveNotebookRequest: (payload: ISaveNotebook) => createAction(ActionTypes.SAVE_NOTEBOOK_REQUEST, payload),
-    saveNotebookSuccess: () => createAction(ActionTypes.SAVE_CODE_SNIPPET_SUCCESS),
+    saveNotebookSuccess: () => createAction(ActionTypes.SAVE_NOTEBOOK_SUCCESS),
 }
 
 

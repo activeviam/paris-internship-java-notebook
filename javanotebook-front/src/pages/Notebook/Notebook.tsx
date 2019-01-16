@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { ActionBar, CodeBlock, Title } from '../../components';
+import { ActionBar, CodeBlock } from '../../components';
+
+import { INotebook } from 'src/interfaces';
 
 
 /* interface INotebookPageState {
@@ -11,7 +13,10 @@ import { ActionBar, CodeBlock, Title } from '../../components';
 interface INotebookPageProps {
   className?: string;
   blockIds: number[];
+  notebook: INotebook;
+  codeBlocks: any;
   addCodeBlock: (id: number) => void;
+  saveNotebook: (notebook: INotebook) => void;
 }
 
 class NotebookPage extends React.Component <INotebookPageProps, {} > {
@@ -21,7 +26,16 @@ class NotebookPage extends React.Component <INotebookPageProps, {} > {
   public constructor(props: INotebookPageProps) {
     super(props);
     this.state = { blockIds: [0]};
-}
+  }
+
+  public handleSaveNotebook() {
+    console.log("codeBlocks", this.props.codeBlocks);
+    const newNotebook: INotebook = this.props.notebook;
+    newNotebook.codeSnippets = this.props.blockIds.map((id: number, index) => {
+      return this.props.codeBlocks[id].codeContent || "";
+    })
+    this.props.saveNotebook(newNotebook);
+  }
 
   public handleAddCodeBlocks() {
     NotebookPage.blockCount += 1;
@@ -31,9 +45,9 @@ class NotebookPage extends React.Component <INotebookPageProps, {} > {
   public render() {
     return (
       <div className={this.props.className}>
-        <Title title={"Java Notebook"}/>
         <ActionBar 
-          addCodeBlock={() => this.handleAddCodeBlocks()}/>
+          addCodeBlock={() => this.handleAddCodeBlocks()}
+          saveNotebook={() => this.handleSaveNotebook()}/>
         {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>
         )}

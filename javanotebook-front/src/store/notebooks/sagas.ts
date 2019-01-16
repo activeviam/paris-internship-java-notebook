@@ -7,7 +7,10 @@ import { API } from './api';
 export function* getNotebookListRequest(params: any): Iterator<any> {
     try {
         const rep = yield call(API.getNotebookList);
-        const data = rep.data;
+        const data = rep.data.map((notebookReceived: any) => 
+        ({...notebookReceived, codeSnippets: (notebookReceived.codeSnippets ).map((snippet: any) => 
+            (snippet.content)
+        )}));
         yield put(NOTEBOOK_ACTIONS.getNotebookSuccess({notebookList: data}))
     } catch (error) {
         yield put(NOTEBOOK_ACTIONS.getNotebookFailure());

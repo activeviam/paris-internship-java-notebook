@@ -47,9 +47,9 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
 
         case ActionTypes.OPEN_NOTEBOOK:
             codeBlocks = {};
-            currentNotebook = parseInt(action.payload!.notebook.id);
-            (action.payload!.notebook.codeSnippets || []).map((snippet, index) => {
-                codeBlocks[index.toString()] = {codeContent: snippet.content};
+            currentNotebook = parseInt(action.payload!.notebook.id, 0);
+            (action.payload!.notebook.codeSnippets || []).map((content, index) => {
+                codeBlocks[index] = {codeContent: content};
             });
             return {...state, codeBlocks, currentNotebook};
         case ActionTypes.SAVE_CODE_SNIPPET_FAILURE:

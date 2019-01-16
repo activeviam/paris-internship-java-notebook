@@ -37,7 +37,8 @@ export function* getCodeSnippetRequest(params: any): Iterator<any> {
 
 export function* saveNotebookRequest(params: any): Iterator<any> {
     try{
-        yield call(API.saveNotebook, params.notebook.id, params.payload.notebook.name, params.payload.notebook.description, params.payload.notebook.codeSnippets);
+        console.log("here");
+        yield call(API.saveNotebook, params.payload.notebook.id, params.payload.notebook.name, params.payload.notebook.description, params.payload.notebook.codeSnippets);
         yield put(COMMANDS_ACTIONS.saveNotebookSuccess());
     } catch (error) {
         yield put(COMMANDS_ACTIONS.saveNotebookFailure());
@@ -53,5 +54,5 @@ export function* commandSaga(): Iterator<any> {
     yield takeEvery(ActionTypes.SAVE_CODE_SNIPPET_REQUEST, saveCodeSnippetRequest);
     yield takeEvery(ActionTypes.GET_CODE_SNIPPET_REQUEST, getCodeSnippetRequest);
     yield takeEvery(ActionTypes.OPEN_NOTEBOOK, goToNotebook);
-    yield takeEvery(ActionTypes.SAVE_CODE_SNIPPET_REQUEST, saveNotebookRequest);
+    yield takeEvery(ActionTypes.SAVE_NOTEBOOK_REQUEST, saveNotebookRequest);
 }

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 interface IActionBarProps {
     addCodeBlock: () => void; 
     className?: string;
+    saveNotebook: () => void;
 }
 
 class ActionBar extends React.Component<IActionBarProps, {}> {
@@ -14,10 +15,14 @@ class ActionBar extends React.Component<IActionBarProps, {}> {
     public handleAddCodeBlock() {
         this.props.addCodeBlock();
     }
+
+    public handleSaveNotebook() {
+        this.props.saveNotebook();
+    }
     public render() {
         return(
             <div className={this.props.className}>
-                <Button color="primary">Save</Button>
+                <Button color="primary" onClick={() => this.handleSaveNotebook()}>Save</Button>
                 <Button color="primary">Restart</Button>
                 <Button color="primary">Run all</Button>
                 <Button color="primary" onClick={() => this.handleAddCodeBlock()}>New Cell</Button>
