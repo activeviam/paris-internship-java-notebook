@@ -26,6 +26,9 @@ public class JShellServiceImpl implements JShellService {
 
     @Override
     public JShellExecutor getJse(String id) {
+        if (!jShellRepo.containsKey(id)){
+            this.createJse(id);
+        }
         return jShellRepo.get(id);
     }
 }
