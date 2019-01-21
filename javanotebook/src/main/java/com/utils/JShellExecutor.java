@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.models.CommandOutput;
 
 import jdk.jshell.Diag;
@@ -56,6 +59,21 @@ public class JShellExecutor {
                 content = an.remaining();
             }
 		return output;
+	}
+
+	public Set<String> codeAutoCompletion(String input, int cursor) {
+		SourceCodeAnalysis.CompletionInfo completeness = jshell.sourceCodeAnalysis().analyzeCompletion(input);
+		List<SourceCodeAnalysis.Suggestion> suggestions = jshell.sourceCodeAnalysis().completionSuggestions(input, cursor, new int[1] );
+		System.out.println(completeness.completeness());
+		List<String> autocompletion = new ArrayList<String>();
+		for (SourceCodeAnalysis.Suggestion suggestion: suggestions) {
+			autocompletion.add(suggestion.continuation());
+		}
+		for (int i = 0; i < autocompletion.size(); i++) {
+			autocompletion.set(i, autocompletion.get(i).trim());
+		}
+		HashSet<String> hs = new HashSet<String>(autocompletion);
+		return hs;
 	}
 
 
