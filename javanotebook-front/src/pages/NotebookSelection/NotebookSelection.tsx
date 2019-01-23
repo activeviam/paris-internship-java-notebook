@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import { INotebook } from 'src/interfaces';
-import { NotebookCard, Title } from '../../components';
+import { NotebookCard } from '../../components';
 
 
 interface INotebookSelectionPageProps {
@@ -53,7 +53,6 @@ class NotebookSelectionPage extends React.Component < INotebookSelectionPageProp
         return (
 
             <div className={this.props.className}>
-                <Title title={"Notebook Selection"} />
                 <Grid container={true} justify="flex-start">
                     {(this.props.noteBooks || []).map((notebook:any, index: number) => 
                         <NotebookCard
