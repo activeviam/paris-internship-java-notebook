@@ -8,7 +8,7 @@ import { API } from './api';
 
 export function* processCommandRequest(params: any): Iterator<any> {
     try {
-        const rep = yield call(API.sendCommand, params.payload.command);
+        const rep = yield call(API.sendCommand, params.payload.command, params.payload.notebookId);
         const data = rep.data;
         // // add missing value from api
         yield put(COMMANDS_ACTIONS.processingCommandSuccess({codeOutput: data, id: params.payload.id}));

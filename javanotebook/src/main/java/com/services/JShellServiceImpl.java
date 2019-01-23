@@ -10,22 +10,30 @@ import com.utils.JShellExecutor;
 @Service
 public class JShellServiceImpl implements JShellService {
 
-    private static Map<String, JShellExecutor> jShellRepo = new HashMap<>();
+    private static Map<Long, JShellExecutor> jShellRepo = new HashMap<>();
 
     static {
         // TODO: for now, since we are not spawning notebooks, we create one to work with
         JShellExecutor tempJse = new JShellExecutor();
-        jShellRepo.put("0", tempJse);
+        jShellRepo.put((long)-1, tempJse);
     }
 
     @Override
-    public void createJse(String id) {
+    public void createJse(long id) {
         final JShellExecutor jse = new JShellExecutor();
         jShellRepo.put(id, jse);
     }
 
     @Override
-    public JShellExecutor getJse(String id) {
+    public JShellExecutor getJse(long id) {
+        if (!jShellRepo.containsKey(id)){
+            this.createJse(id);
+        }
         return jShellRepo.get(id);
+    }
+
+    @Override
+    public JShellExecutor getDefaultJSE(){
+        return jShellRepo.get((long)-1);
     }
 }
