@@ -11,11 +11,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.models.CommandOutput;
+import com.models.Variable;
 
 import jdk.jshell.Diag;
 import jdk.jshell.JShell;
 import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
+import jdk.jshell.Snippet;
+import jdk.jshell.VarSnippet;
 
 
 public class JShellExecutor {
@@ -40,6 +43,11 @@ public class JShellExecutor {
     }
 
 
+	/**
+	 * Evaluate the result of a block of java code
+	 * @param input
+	 * @return the result of the code's execution
+	 */
     public List<CommandOutput> evaluateCommand(String input){
             String content = input;
             final List<SnippetEvent> events = new ArrayList<>();
@@ -61,6 +69,13 @@ public class JShellExecutor {
 		return output;
 	}
 
+
+	/**
+	 * Provide the user with suggestions based on the current java environment
+	 * @param input the user's current line of code
+	 * @param cursor the position of the user's cursor in this line
+	 * @return a list of suggestions for the user
+	 */
 	public Set<String> codeAutoCompletion(String input, int cursor) {
 		SourceCodeAnalysis.CompletionInfo completeness = jshell.sourceCodeAnalysis().analyzeCompletion(input);
 		List<SourceCodeAnalysis.Suggestion> suggestions = jshell.sourceCodeAnalysis().completionSuggestions(input, cursor, new int[1] );
@@ -74,6 +89,22 @@ public class JShellExecutor {
 		}
 		HashSet<String> hs = new HashSet<String>(autocompletion);
 		return hs;
+	}
+
+
+	/**
+	 * Returns the list of variables which have been created in the current java environment
+	 */
+	public List<Variable> currentVariables(){
+		List<Variable> variables = new ArrayList<>();
+		Snippet[] snippets = jshell.snippets().toArray(Snippet[]::new);
+		for (Snippet snip: snippets){
+			if (snip.kind() == jdk.jshell.Snippet.Kind.VAR && jshell.status(snip).isActive()) {
+				VarSnippet variable = (VarSnippet) snip;
+				variables.add(new Variable(variable.typeName(),variable.name()));
+			}
+		}
+		return variables;
 	}
 
 
