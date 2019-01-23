@@ -2,12 +2,14 @@ import { Actions, ActionTypes } from './actions';
 
 import { ICommandStore } from '../../interfaces';
 
+
 export function commandReducer(state : ICommandStore  = {}, action: Actions): ICommandStore {
     let isProcessing: boolean;
     let isProcessingError: boolean;
     let id: number;
     let codeBlock: any;
     let codeBlocks: any;
+    let currentNotebook: number;
     switch (action.type) {
         // CODE CONTENT CHANGE
         case ActionTypes.CHANGE_CODE_CONTENT:
@@ -45,10 +47,18 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
 
         case ActionTypes.OPEN_NOTEBOOK:
             codeBlocks = {};
-            (action.payload!.notebook.codeSnippets || []).map((snippet, index) => {
-                codeBlocks[index.toString()] = {codeContent: snippet.content};
+            // currentNotebook = parseInt(action.payload!.notebook.id, 0);
+            currentNotebook = action.payload!.notebook.id;
+            (action.payload!.notebook.codeSnippets || []).map((content, index) => {
+                codeBlocks[index] = {codeContent: content};
             });
-            return {...state, codeBlocks};
+            return {...state, codeBlocks, currentNotebook};
+        case ActionTypes.SAVE_CODE_SNIPPET_FAILURE:
+            return {...state};
+        case ActionTypes.SAVE_NOTEBOOK_REQUEST:
+            return {...state};
+        case ActionTypes.SAVE_CODE_SNIPPET_SUCCESS:
+        return {...state};
         default:
             return state;
     }
