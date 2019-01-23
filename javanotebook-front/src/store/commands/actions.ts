@@ -77,6 +77,7 @@ export interface IDeleteCodeBlock {
 export interface IProcessingCommandRequestPayload {
     command: string;
     id: number;
+    notebookId: number;
 }
 
 export interface IProcessingCommandRequestSuccess {

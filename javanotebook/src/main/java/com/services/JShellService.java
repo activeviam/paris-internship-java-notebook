@@ -9,7 +9,7 @@ public interface JShellService {
 	 *
 	 * @param id the session token, unique to each notebook.
 	 */
-    void createJse(String id);
+    void createJse(long id);
 
 	/**
 	 * Returns the {@link JShellExecutor jse} of the requested notebook, identified by session id.
@@ -17,6 +17,8 @@ public interface JShellService {
 	 * @param id The session id.
 	 * @return The jse of the requested notebook, identified by session id.
 	 */
-    JShellExecutor getJse(String id);
+	JShellExecutor getJse(long id);
+	
+	JShellExecutor getDefaultJSE();
     
 }

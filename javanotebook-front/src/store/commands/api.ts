@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { BACK_URL } from '../../const';
 
-const sendCommand = async (command: string) => {
+const sendCommand = async (command: string, notebookId: number) => {
     const url = BACK_URL + '/jshellCommand';
-    const rep = await axios.post(url, {command});
+    const rep = await axios.post(url, {command, id:notebookId});
     console.log("api command rep", rep);
     return rep;
 };
