@@ -16,6 +16,7 @@ interface INotebookPageProps {
   notebook: INotebook;
   codeBlocks: any;
   addCodeBlock: (id: number) => void;
+  currentVariables: (notebookId: number) => void;
   saveNotebook: (notebook: INotebook) => void;
 }
 
@@ -41,12 +42,20 @@ class NotebookPage extends React.Component <INotebookPageProps, {} > {
     NotebookPage.blockCount += 1;
     this.props.addCodeBlock(NotebookPage.blockCount);
   }
+
+  public handleRunAllCells(){
+    // TODO: implement action to run all cells
+
+    // reload the variables when all cells are re-run
+    this.props.currentVariables(this.props.notebook.id);
+  }
   
   public render() {
     return (
       <div className={this.props.className}>
         <ActionBar 
           addCodeBlock={() => this.handleAddCodeBlocks()}
+          runAllCells={() => this.handleRunAllCells()}
           saveNotebook={() => this.handleSaveNotebook()}/>
         {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>

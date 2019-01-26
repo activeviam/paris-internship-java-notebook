@@ -59,6 +59,14 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             return {...state};
         case ActionTypes.SAVE_CODE_SNIPPET_SUCCESS:
         return {...state};
+
+        case ActionTypes.CURRENT_VARIABLES_FAILURE:
+            return {...state};
+        case ActionTypes.CURRENT_VARIABLES_REQUEST:
+            return {...state};
+        case ActionTypes.CURRENT_VARIABLES_SUCCESS:
+            return {...state};
+
         default:
             return state;
     }

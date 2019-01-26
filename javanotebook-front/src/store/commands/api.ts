@@ -30,7 +30,15 @@ const saveNotebook = async (id: string, name: string, description: string, codeS
     return rep;
 }
 
+const currentVariables = async (notebookId: number) => {
+    const url = BACK_URL + `/currentVariables/${notebookId.toString()}`;
+    const rep = await axios.get(url);
+    console.log("api current variables", rep);
+    return rep;
+}
+
 export const API = {
+    currentVariables,
     getCodeSnippet,
     saveCodeSnippet,
     sendCommand,

@@ -9,6 +9,7 @@ import { Code, Delete, PlayArrow, Save} from '@material-ui/icons';
 
 interface ICodeBlockToolbar {
     id: number;
+    currentVariables: (notebookId: number) => void;
     saveCodeSnippetRequest: (codeSnippetContent: string, codeSnippetName: string) => void;
     processCommandRequest: (command: string, id: number, notebookId: number) => void;
     getCodeSnippetRequest: (id: number, idSnippet: number) => void;
@@ -23,6 +24,8 @@ class CodeBlockToolbar extends React.Component <ICodeBlockToolbar, {} >{
     public handleSendCommand(){
         const code = this.props.getCode(this.props.id);
         this.props.processCommandRequest(code, this.props.id, this.props.notebookId);
+        console.log("toolbar", this.props.notebookId);
+        this.props.currentVariables(this.props.notebookId);
         return;
     }
 

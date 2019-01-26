@@ -26,6 +26,10 @@ export enum ActionTypes {
     SAVE_NOTEBOOK_FAILURE = 'SAVE_NOTEBOOK_FAILURE',
     SAVE_NOTEBOOK_REQUEST = 'SAVE_NOTEBOOK_REQUEST',
     SAVE_NOTEBOOK_SUCCESS = 'SAVE_NOTEBOOK_SUCCESS',
+
+    CURRENT_VARIABLES_FAILURE = 'CURRENT_VARIABLES_FAILURE',
+    CURRENT_VARIABLES_REQUEST = 'CURRENT_VARIABLES_REQUEST',
+    CURRENT_VARIABLES_SUCCESS = 'CURRENT_VARIABLES_SUCCESS',
 }
 
 export const COMMANDS_ACTIONS = {
@@ -50,8 +54,17 @@ export const COMMANDS_ACTIONS = {
     saveNotebookFailure: () => createAction(ActionTypes.SAVE_NOTEBOOK_FAILURE),
     saveNotebookRequest: (payload: ISaveNotebook) => createAction(ActionTypes.SAVE_NOTEBOOK_REQUEST, payload),
     saveNotebookSuccess: () => createAction(ActionTypes.SAVE_NOTEBOOK_SUCCESS),
+
+    currentVariablesFailure: () => createAction(ActionTypes.CURRENT_VARIABLES_FAILURE),
+    currentVariablesRequest: (payload: ICurrentVariables) => createAction(ActionTypes.CURRENT_VARIABLES_REQUEST, payload),
+    currentVariablesSuccess: () => createAction(ActionTypes.CURRENT_VARIABLES_SUCCESS),
 }
 
+
+
+export interface ICurrentVariables {
+    notebookId: number;
+}
 
 export interface ISaveNotebook {
     notebook: INotebook;
