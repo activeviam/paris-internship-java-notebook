@@ -1,7 +1,7 @@
 import { ActionCreatorsMapObject } from 'redux';
 import { createAction } from '../utils';
 
-import { INotebook, IProcessedCommand } from '../../interfaces';
+import { INotebook, IProcessedCommand , IVariable } from '../../interfaces';
 
 // Actions type 
 export enum ActionTypes {
@@ -56,14 +56,18 @@ export const COMMANDS_ACTIONS = {
     saveNotebookSuccess: () => createAction(ActionTypes.SAVE_NOTEBOOK_SUCCESS),
 
     currentVariablesFailure: () => createAction(ActionTypes.CURRENT_VARIABLES_FAILURE),
-    currentVariablesRequest: (payload: ICurrentVariables) => createAction(ActionTypes.CURRENT_VARIABLES_REQUEST, payload),
-    currentVariablesSuccess: () => createAction(ActionTypes.CURRENT_VARIABLES_SUCCESS),
+    currentVariablesRequest: (payload: ICurrentVariablesRequest) => createAction(ActionTypes.CURRENT_VARIABLES_REQUEST, payload),
+    currentVariablesSuccess: (payload: ICurrentVariablesSuccess) => createAction(ActionTypes.CURRENT_VARIABLES_SUCCESS, payload),
 }
 
 
 
-export interface ICurrentVariables {
+export interface ICurrentVariablesRequest {
     notebookId: number;
+}
+
+export interface ICurrentVariablesSuccess {
+    variables: IVariable[];
 }
 
 export interface ISaveNotebook {

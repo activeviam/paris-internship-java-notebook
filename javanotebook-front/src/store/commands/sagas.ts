@@ -2,6 +2,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { ActionTypes, COMMANDS_ACTIONS } from './actions';
 
+import { IVariable } from '../../interfaces'
+
 import { push } from 'connected-react-router';
 
 import { API } from './api';
@@ -45,10 +47,13 @@ export function* saveNotebookRequest(params: any): Iterator<any> {
 }
 
 export function* currentVariablesRequest(params: any): Iterator<any> {
-    console.log("saga", params);
     try {
-        yield call(API.currentVariables, params.payload.notebookId);
-        yield put(COMMANDS_ACTIONS.currentVariablesSuccess());
+        const rep = yield call(API.currentVariables, params.payload.notebookId);
+        let variables: IVariable[] = [];
+        rep.data.map((value:any) => {
+            variables = [...variables, {name: value.name.toString(), typeName: value.typeName.toString()}]
+        })
+        yield put(COMMANDS_ACTIONS.currentVariablesSuccess({variables}));
     } catch (error) {
         yield put(COMMANDS_ACTIONS.currentVariablesFailure());
     }

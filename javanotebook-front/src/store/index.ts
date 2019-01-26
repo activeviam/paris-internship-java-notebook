@@ -8,8 +8,8 @@ import { persistStore } from 'redux-persist'; // persistReducer
 
 // import storage from 'redux-persist/lib/storage';
 
-import { commandReducer, commandSaga } from '../store/commands';
-import { notebookReducer, notebookSaga } from '../store/notebooks';
+import { commandReducer, commandSaga } from './commands';
+import { notebookReducer, notebookSaga } from './notebooks';
 
 const sagaMiddleware = createSagaMiddleware();
 

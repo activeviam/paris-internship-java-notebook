@@ -1,6 +1,6 @@
 import { Actions, ActionTypes } from './actions';
 
-import { ICommandStore } from '../../interfaces';
+import { ICommandStore , IVariable} from '../../interfaces';
 
 
 export function commandReducer(state : ICommandStore  = {}, action: Actions): ICommandStore {
@@ -65,7 +65,8 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
         case ActionTypes.CURRENT_VARIABLES_REQUEST:
             return {...state};
         case ActionTypes.CURRENT_VARIABLES_SUCCESS:
-            return {...state};
+            const variables: IVariable[] = action.payload!.variables;
+            return {...state, variables};
 
         default:
             return state;

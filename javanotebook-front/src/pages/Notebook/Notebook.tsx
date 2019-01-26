@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ActionBar, CodeBlock, EnvironmentDrawer } from '../../components';
 
-import { INotebook } from 'src/interfaces';
+import { INotebook } from '../../interfaces';
 
 
 interface INotebookPageState {
