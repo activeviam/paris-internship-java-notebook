@@ -2,6 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+
+import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 
 
 interface IActionBarProps {
@@ -9,6 +12,8 @@ interface IActionBarProps {
     runAllCells: () => void;
     className?: string;
     saveNotebook: () => void;
+    toggleDrawer: () => void;
+    drawerState: boolean;
 }
 
 class ActionBar extends React.Component<IActionBarProps, {}> {
@@ -31,6 +36,11 @@ class ActionBar extends React.Component<IActionBarProps, {}> {
                 <Button color="primary">Restart</Button>
                 <Button color="primary" onClick={() => this.handleRunAllCells()}>Run all</Button>
                 <Button color="primary" onClick={() => this.handleAddCodeBlock()}>New Cell</Button>
+                <IconButton onClick={() => this.props.toggleDrawer()}>
+                    {this.props.drawerState ? 
+                        <ArrowForwardIos /> :
+                        <ArrowBackIos />}
+                </IconButton>
             </div>
         );
     }
