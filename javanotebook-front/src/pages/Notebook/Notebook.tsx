@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ActionBar, CodeBlock, EnvironmentDrawer } from '../../components';
 
-import { INotebook } from '../../interfaces';
+import { INotebook, IVariable } from '../../interfaces';
 
 
 interface INotebookPageState {
@@ -16,6 +16,7 @@ interface INotebookPageProps {
   blockIds: number[];
   notebook: INotebook;
   codeBlocks: any;
+  variables: IVariable[];
   addCodeBlock: (id: number) => void;
   currentVariables: (notebookId: number) => void;
   saveNotebook: (notebook: INotebook) => void;
@@ -34,7 +35,7 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
   
   public handleToggleDrawer(){
     const drawerState = !this.state.drawerState;
-    console.log(this.state.drawerState);
+    console.log(this.props.variables);
     this.setState({drawerState});
   }
 
@@ -68,7 +69,7 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
           saveNotebook={() => this.handleSaveNotebook()}
           toggleDrawer={() => this.handleToggleDrawer()}
           drawerState={this.state.drawerState}/>
-        <EnvironmentDrawer open={this.state.drawerState} />
+        <EnvironmentDrawer open={this.state.drawerState} variables={this.props.variables} />
         {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>
         )}

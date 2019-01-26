@@ -2,9 +2,12 @@ import * as React from 'react';
 
 import Drawer from '@material-ui/core/Drawer';
 
+import {IVariable} from '../../interfaces';
+
 
 interface IEnvironmentDrawerProps {
     open: boolean;
+    variables?: IVariable[];
 }
 
 
@@ -17,7 +20,9 @@ class EnvironmentDrawer extends React.Component <IEnvironmentDrawerProps, {} > {
                     variant="persistent"
                     anchor="right"
                     open={this.props.open}>
-                    <div>Very very long sentence for testing purposes</div>
+                    {(this.props.variables || []).map((value: IVariable, index: number) => {
+                        return <div key={index}>{value.typeName}: {value.name} </div>;
+                    })}
                 </Drawer>
         )
     }
