@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.models.CommandOutput;
+import com.models.Variable;
 import com.models.dto.ReceivedCommandVM;
 import com.utils.JShellExecutor;
 import com.services.JShellService;
@@ -25,7 +26,6 @@ public class JShellCommandController {
     @PostMapping(value = "/api/jshellCommand")
     public List<CommandOutput> command(@RequestBody ReceivedCommandVM command){
         // TODO : for now we statically create a jse in the service
-        System.out.println(command.getId());
         final JShellExecutor executor = jShellService.getJse(command.getId());
         final List<CommandOutput> output= executor.evaluateCommand(command.getCommand());
         return output;
@@ -36,5 +36,12 @@ public class JShellCommandController {
         final JShellExecutor jse = jShellService.getJse(id);
         final Set<String> autoCompletion = jse.codeAutoCompletion(code, (int)cursor);
         return autoCompletion;
+    }
+
+    @GetMapping(value="/api/currentVariables/{id}")
+    public List<Variable> getVariables(@PathVariable("id") Long id){
+        final JShellExecutor jse = jShellService.getJse(id);
+        final List<Variable> variables = jse.currentVariables();
+        return variables;
     }
 }

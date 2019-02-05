@@ -5,3 +5,5 @@ export * from './store/notebook-store.interface';
 export * from './notebook.interface';
 export * from './processed-command.interface';
 export * from './code-snippet.interface';
+
+export * from './variable.interface';

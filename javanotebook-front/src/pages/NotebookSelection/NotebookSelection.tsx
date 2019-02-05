@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import { INotebook } from 'src/interfaces';
+import { INotebook } from '../../interfaces';
+
 import { NotebookCard } from '../../components';
 
 

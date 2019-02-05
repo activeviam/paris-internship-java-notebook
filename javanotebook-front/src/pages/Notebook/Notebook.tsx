@@ -1,31 +1,42 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { ActionBar, CodeBlock } from '../../components';
+import { ActionBar, CodeBlock, EnvironmentDrawer } from '../../components';
 
-import { INotebook } from 'src/interfaces';
+import { INotebook, IVariable } from '../../interfaces';
 
 
-/* interface INotebookPageState {
+interface INotebookPageState {
   blockIds: number[];
-} */
+  drawerState: boolean;
+} 
 
 interface INotebookPageProps {
   className?: string;
   blockIds: number[];
   notebook: INotebook;
   codeBlocks: any;
+  variables: IVariable[];
   addCodeBlock: (id: number) => void;
+  currentVariables: (notebookId: number) => void;
   saveNotebook: (notebook: INotebook) => void;
 }
 
-class NotebookPage extends React.Component <INotebookPageProps, {} > {
+class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState > {
 
   private static blockCount: number = 0;
+  public drawerState: boolean = false;
 
   public constructor(props: INotebookPageProps) {
     super(props);
-    this.state = { blockIds: [0]};
+    this.state = { blockIds: [0], drawerState: false};
+  }
+
+  
+  public handleToggleDrawer(){
+    const drawerState = !this.state.drawerState;
+    console.log(this.props.variables);
+    this.setState({drawerState});
   }
 
   public handleSaveNotebook() {
@@ -41,13 +52,24 @@ class NotebookPage extends React.Component <INotebookPageProps, {} > {
     NotebookPage.blockCount += 1;
     this.props.addCodeBlock(NotebookPage.blockCount);
   }
+
+  public handleRunAllCells(){
+    // TODO: implement action to run all cells
+
+    // reload the variables when all cells are re-run
+    this.props.currentVariables(this.props.notebook.id);
+  }
   
   public render() {
     return (
       <div className={this.props.className}>
         <ActionBar 
           addCodeBlock={() => this.handleAddCodeBlocks()}
-          saveNotebook={() => this.handleSaveNotebook()}/>
+          runAllCells={() => this.handleRunAllCells()}
+          saveNotebook={() => this.handleSaveNotebook()}
+          toggleDrawer={() => this.handleToggleDrawer()}
+          drawerState={this.state.drawerState}/>
+        <EnvironmentDrawer open={this.state.drawerState} variables={this.props.variables} />
         {(this.props.blockIds || []).map((id: number) => 
             <CodeBlock key={`${id}-block`} id={id}/>
         )}

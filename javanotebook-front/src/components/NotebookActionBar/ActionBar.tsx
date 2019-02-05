@@ -2,18 +2,28 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+
+import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 
 
 interface IActionBarProps {
     addCodeBlock: () => void; 
+    runAllCells: () => void;
     className?: string;
     saveNotebook: () => void;
+    toggleDrawer: () => void;
+    drawerState: boolean;
 }
 
 class ActionBar extends React.Component<IActionBarProps, {}> {
 
     public handleAddCodeBlock() {
         this.props.addCodeBlock();
+    }
+
+    public handleRunAllCells() {
+        this.props.runAllCells()
     }
 
     public handleSaveNotebook() {
@@ -24,8 +34,13 @@ class ActionBar extends React.Component<IActionBarProps, {}> {
             <div className={this.props.className}>
                 <Button color="primary" onClick={() => this.handleSaveNotebook()}>Save</Button>
                 <Button color="primary">Restart</Button>
-                <Button color="primary">Run all</Button>
+                <Button color="primary" onClick={() => this.handleRunAllCells()}>Run all</Button>
                 <Button color="primary" onClick={() => this.handleAddCodeBlock()}>New Cell</Button>
+                <IconButton onClick={() => this.props.toggleDrawer()}>
+                    {this.props.drawerState ? 
+                        <ArrowForwardIos /> :
+                        <ArrowBackIos />}
+                </IconButton>
             </div>
         );
     }
