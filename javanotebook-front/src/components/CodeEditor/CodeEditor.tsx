@@ -33,8 +33,6 @@ class CodeEditor extends React.Component <ICodeEditorProps, {}> {
     }
 
     public handleEditorMount(editor: any) {
-        console.log("editor******", editor);
-        console.log("monaco!!!", monaco);
         editor._completionProvider = monaco.languages.registerCompletionItemProvider("java", {
             // triggerCharacters: [".", " ", "/"],
             provideCompletionItems: async (model, position) => {

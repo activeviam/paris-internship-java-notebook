@@ -25,7 +25,6 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             id = action.payload!.id;
             codeBlocks = state.codeBlocks;
             codeBlocks = {...state.codeBlocks, [id]: null};
-            console.log(codeBlocks);
             return {...state, codeBlocks};
         // COMMAND PROCESS 
         case ActionTypes.PROCESS_COMMAND_REQUEST:
