@@ -3,6 +3,8 @@ import { createAction } from '../utils';
 
 import { INotebook, IProcessedCommand , IVariable } from '../../interfaces';
 
+import * as monaco from 'monaco-editor';
+
 // Actions type 
 export enum ActionTypes {
     CHANGE_CODE_CONTENT = 'CHANGE_CODE_CONTENT',
@@ -30,6 +32,10 @@ export enum ActionTypes {
     CURRENT_VARIABLES_FAILURE = 'CURRENT_VARIABLES_FAILURE',
     CURRENT_VARIABLES_REQUEST = 'CURRENT_VARIABLES_REQUEST',
     CURRENT_VARIABLES_SUCCESS = 'CURRENT_VARIABLES_SUCCESS',
+
+    COMPLETION_ITEMS_FAILURE = 'COMPLETION_ITEMS_FAILURE',
+    COMPLETION_ITEMS_REQUEST = 'COMPLETION_ITEMS_REQUEST',
+    COMPLETION_ITEMS_SUCCESS = 'COMPLETION_ITEMS_SUCCESS',
 }
 
 export const COMMANDS_ACTIONS = {
@@ -58,9 +64,21 @@ export const COMMANDS_ACTIONS = {
     currentVariablesFailure: () => createAction(ActionTypes.CURRENT_VARIABLES_FAILURE),
     currentVariablesRequest: (payload: ICurrentVariablesRequest) => createAction(ActionTypes.CURRENT_VARIABLES_REQUEST, payload),
     currentVariablesSuccess: (payload: ICurrentVariablesSuccess) => createAction(ActionTypes.CURRENT_VARIABLES_SUCCESS, payload),
+
+    completionItemsFailure: () => createAction(ActionTypes.COMPLETION_ITEMS_FAILURE),
+    completionItemsRequest: (payload: ICompletionItemsRequest) => createAction(ActionTypes.COMPLETION_ITEMS_REQUEST, payload),
+    completionItemsSuccess: (payload: ICompletionItemsSuccess) => createAction(ActionTypes.COMPLETION_ITEMS_SUCCESS, payload),
 }
 
+export interface ICompletionItemsRequest {
+    notebookId: number;
+    codeContent: string;
+    cursor: number;
+}
 
+export interface ICompletionItemsSuccess {
+    completionItems: monaco.languages.CompletionItem[];
+}
 
 export interface ICurrentVariablesRequest {
     notebookId: number;

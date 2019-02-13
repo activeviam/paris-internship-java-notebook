@@ -2,6 +2,8 @@ import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import styled from 'styled-components';
 
+import * as monaco from 'monaco-editor';
+
 
 const MAX_EDITOR_HEIGHT = 500;
 
@@ -9,6 +11,8 @@ interface ICodeEditorProps {
     code: string;
     onChange: (value: string) => void;
     className?: string;
+    getCompletionItem: () => monaco.languages.CompletionItem[];
+    completionItemRequest: (codeContent: string, cursor: number) => void;
 }
 
 class CodeEditor extends React.Component <ICodeEditorProps, {}> {
@@ -28,6 +32,26 @@ class CodeEditor extends React.Component <ICodeEditorProps, {}> {
         return this.getNbLine() < 10 ? 200 : Math.min(MAX_EDITOR_HEIGHT, this.getNbLine()*20)
     }
 
+    public handleEditorMount(editor: any) {
+        console.log("editor******", editor);
+        console.log("monaco!!!", monaco);
+        editor._completionProvider = monaco.languages.registerCompletionItemProvider("java", {
+            // triggerCharacters: [".", " ", "/"],
+            provideCompletionItems: async (model, position) => {
+                const textUntilPosition = model.getValueInRange({
+                    startLineNumber: position.lineNumber,
+                    startColumn: 1,
+                    endLineNumber: position.lineNumber,
+                    endColumn: position.column,
+                });
+
+                await this.props.completionItemRequest(textUntilPosition, textUntilPosition.length);
+                console.log(this.props.getCompletionItem());
+                return this.props.getCompletionItem();
+            }
+        });
+    }
+
     public render() {
         const code = this.props.code;
         const options = {
@@ -42,7 +66,7 @@ class CodeEditor extends React.Component <ICodeEditorProps, {}> {
                 value={code}
                 options={options}
                 onChange={(value, e) => this.onChangeCode(value)}
-                editorDidMount={(editor) => ({})}
+                editorDidMount={(editor) => this.handleEditorMount(editor)}
             />
         )
     }
