@@ -1,7 +1,7 @@
 import { ActionCreatorsMapObject } from 'redux';
 import { createAction } from '../utils';
 
-import { INotebook, IProcessedCommand } from '../../interfaces';
+import { INotebook, IProcessedCommand , IVariable } from '../../interfaces';
 
 // Actions type 
 export enum ActionTypes {
@@ -23,6 +23,13 @@ export enum ActionTypes {
     GET_CODE_SNIPPET_FAILURE = 'GET_CODE_SNIPPET_FAILURE',
 
     OPEN_NOTEBOOK = 'OPEN_NOTEBOOK',
+    SAVE_NOTEBOOK_FAILURE = 'SAVE_NOTEBOOK_FAILURE',
+    SAVE_NOTEBOOK_REQUEST = 'SAVE_NOTEBOOK_REQUEST',
+    SAVE_NOTEBOOK_SUCCESS = 'SAVE_NOTEBOOK_SUCCESS',
+
+    CURRENT_VARIABLES_FAILURE = 'CURRENT_VARIABLES_FAILURE',
+    CURRENT_VARIABLES_REQUEST = 'CURRENT_VARIABLES_REQUEST',
+    CURRENT_VARIABLES_SUCCESS = 'CURRENT_VARIABLES_SUCCESS',
 }
 
 export const COMMANDS_ACTIONS = {
@@ -44,6 +51,27 @@ export const COMMANDS_ACTIONS = {
     // getCodeSnippetSuccess: (payload: IGetCodeSnippetSuccess) => createAction(ActionTypes.GET_CODE_SNIPPET_SUCCESS, payload),
 
     openNotebook: (payload: IOpenNotebook) => createAction(ActionTypes.OPEN_NOTEBOOK, payload),
+    saveNotebookFailure: () => createAction(ActionTypes.SAVE_NOTEBOOK_FAILURE),
+    saveNotebookRequest: (payload: ISaveNotebook) => createAction(ActionTypes.SAVE_NOTEBOOK_REQUEST, payload),
+    saveNotebookSuccess: () => createAction(ActionTypes.SAVE_NOTEBOOK_SUCCESS),
+
+    currentVariablesFailure: () => createAction(ActionTypes.CURRENT_VARIABLES_FAILURE),
+    currentVariablesRequest: (payload: ICurrentVariablesRequest) => createAction(ActionTypes.CURRENT_VARIABLES_REQUEST, payload),
+    currentVariablesSuccess: (payload: ICurrentVariablesSuccess) => createAction(ActionTypes.CURRENT_VARIABLES_SUCCESS, payload),
+}
+
+
+
+export interface ICurrentVariablesRequest {
+    notebookId: number;
+}
+
+export interface ICurrentVariablesSuccess {
+    variables: IVariable[];
+}
+
+export interface ISaveNotebook {
+    notebook: INotebook;
 }
 
 export interface IOpenNotebook {
@@ -66,6 +94,7 @@ export interface IDeleteCodeBlock {
 export interface IProcessingCommandRequestPayload {
     command: string;
     id: number;
+    notebookId: number;
 }
 
 export interface IProcessingCommandRequestSuccess {

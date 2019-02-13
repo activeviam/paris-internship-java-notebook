@@ -13,14 +13,15 @@ const mapStateToProps = (state: IStore) => {
                 return state.commandReducer.codeBlocks[id].codeContent;
             }
             return '// Enter your code here';
-        }
+        },
+        notebookId: state.commandReducer.currentNotebook ? state.commandReducer.currentNotebook : null,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
     deleteCodeBlock: (id: number) => dispatch(COMMANDS_ACTIONS.deleteCodeBlock({id})),
     getCodeSnippetRequest: (id: number, idSnippet: number) => dispatch(COMMANDS_ACTIONS.getCodeSnippetRequest({id, idSnippet})),
-    processCommandRequest: (command: string, id: number) => dispatch(COMMANDS_ACTIONS.processingCommandRequest({command, id})),
+    processCommandRequest: (command: string, id: number, notebookId: number) => dispatch(COMMANDS_ACTIONS.processingCommandRequest({command, id, notebookId })),
     saveCodeSnippetRequest: (codeSnippetContent: string, codeSnippetName: string) => 
         dispatch(COMMANDS_ACTIONS.saveCodeSnippetRequest({codeSnippetContent, codeSnippetName})),
 });

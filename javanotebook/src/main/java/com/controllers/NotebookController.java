@@ -3,11 +3,9 @@ package com.controllers;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import com.models.CodeSnippet;
 import com.models.Notebook;
-import com.models.dto.CodeSnippetVM;
 import com.models.dto.NotebookUpdateVM;
 import com.models.dto.NotebookVM;
 import com.repository.CodeSnippetRepository;
