@@ -19,7 +19,6 @@ const mapStateToProps = (state: IStore) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-    currentVariables: (notebookId: number) => dispatch(COMMANDS_ACTIONS.currentVariablesRequest({notebookId})),
     deleteCodeBlock: (id: number) => dispatch(COMMANDS_ACTIONS.deleteCodeBlock({id})),
     getCodeSnippetRequest: (id: number, idSnippet: number) => dispatch(COMMANDS_ACTIONS.getCodeSnippetRequest({id, idSnippet})),
     processCommandRequest: (command: string, id: number, notebookId: number) => dispatch(COMMANDS_ACTIONS.processingCommandRequest({command, id, notebookId })),
