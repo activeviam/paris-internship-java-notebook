@@ -14,6 +14,7 @@ export function* processCommandRequest(params: any): Iterator<any> {
         const data = rep.data;
         // // add missing value from api
         yield put(COMMANDS_ACTIONS.processingCommandSuccess({codeOutput: data, id: params.payload.id}));
+        yield put (COMMANDS_ACTIONS.currentVariablesRequest({notebookId: params.payload.id }));
     } catch (error) {
         yield put(COMMANDS_ACTIONS.processingCommandFailure());
     }
