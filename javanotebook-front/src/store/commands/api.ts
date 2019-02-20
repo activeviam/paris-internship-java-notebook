@@ -4,7 +4,6 @@ import { BACK_URL } from '../../const';
 const sendCommand = async (command: string, notebookId: number) => {
     const url = BACK_URL + '/jshellCommand';
     const rep = await axios.post(url, {command, id:notebookId});
-    console.log("api command rep", rep);
     return rep;
 };
 
@@ -37,9 +36,17 @@ const currentVariables = async (notebookId: number) => {
     return rep;
 }
 
+const getCompletionItems = async (notebookId: number, codeContent: string, cursor: number) => {
+    const url = BACK_URL + `/codeAutoCompletion/${notebookId.toString()}/${codeContent}/${cursor.toString()}/`;
+    const rep = await axios.get(url);
+    console.log("completion APIIIIIIIIIIIIIIII", rep);
+    return rep;
+}
+
 export const API = {
     currentVariables,
     getCodeSnippet,
+    getCompletionItems,
     saveCodeSnippet,
     sendCommand,
     saveNotebook,

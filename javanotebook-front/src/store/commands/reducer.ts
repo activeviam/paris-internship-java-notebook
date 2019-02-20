@@ -2,7 +2,6 @@ import { Actions, ActionTypes } from './actions';
 
 import { ICommandStore , IVariable} from '../../interfaces';
 
-
 export function commandReducer(state : ICommandStore  = {}, action: Actions): ICommandStore {
     let isProcessing: boolean;
     let isProcessingError: boolean;
@@ -26,7 +25,6 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             id = action.payload!.id;
             codeBlocks = state.codeBlocks;
             codeBlocks = {...state.codeBlocks, [id]: null};
-            console.log(codeBlocks);
             return {...state, codeBlocks};
         // COMMAND PROCESS 
         case ActionTypes.PROCESS_COMMAND_REQUEST:
@@ -67,6 +65,13 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
         case ActionTypes.CURRENT_VARIABLES_SUCCESS:
             const variables: IVariable[] = action.payload!.variables;
             return {...state, variables};
+
+        case ActionTypes.COMPLETION_ITEMS_FAILURE:
+            return {...state};
+        case ActionTypes.COMPLETION_ITEMS_REQUEST:
+            return {...state};
+        case ActionTypes.COMPLETION_ITEMS_SUCCESS:
+            return {...state, completionItems: action.payload!.completionItems};
 
         default:
             return state;

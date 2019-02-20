@@ -8,13 +8,15 @@ import { push } from 'connected-react-router';
 
 import { API } from './api';
 
+import * as monaco from 'monaco-editor';
+
 export function* processCommandRequest(params: any): Iterator<any> {
     try {
         const rep = yield call(API.sendCommand, params.payload.command, params.payload.notebookId);
         const data = rep.data;
         // // add missing value from api
         yield put(COMMANDS_ACTIONS.processingCommandSuccess({codeOutput: data, id: params.payload.id}));
-        yield put (COMMANDS_ACTIONS.currentVariablesRequest({notebookId: params.payload.id }));
+        yield put (COMMANDS_ACTIONS.currentVariablesRequest({notebookId: params.payload.notebookId }));
     } catch (error) {
         yield put(COMMANDS_ACTIONS.processingCommandFailure());
     }
@@ -60,6 +62,20 @@ export function* currentVariablesRequest(params: any): Iterator<any> {
     }
 }
 
+export function* completionItemsRequest(params: any): Iterator<any> {
+    try {
+        const rep = yield call(API.getCompletionItems, params.payload.notebookId, params.payload.codeContent, params.payload.cursor); 
+        const completionItems: any[] = rep.data.map((value: any) => ({
+            label: value,
+            insertText: value,
+            kind: monaco.languages.CompletionItemKind.Text,        
+        }));
+        yield put(COMMANDS_ACTIONS.completionItemsSuccess({completionItems}));
+    } catch (error) {
+        yield put(COMMANDS_ACTIONS.completionItemsFailure());
+    }
+}
+
 export function* goToNotebook(): Iterator<any> {
     yield put(push("/notebook"));
 }
@@ -71,4 +87,5 @@ export function* commandSaga(): Iterator<any> {
     yield takeEvery(ActionTypes.OPEN_NOTEBOOK, goToNotebook);
     yield takeEvery(ActionTypes.SAVE_NOTEBOOK_REQUEST, saveNotebookRequest);
     yield takeEvery(ActionTypes.CURRENT_VARIABLES_REQUEST, currentVariablesRequest);
+    yield takeEvery(ActionTypes.COMPLETION_ITEMS_REQUEST, completionItemsRequest);
 }

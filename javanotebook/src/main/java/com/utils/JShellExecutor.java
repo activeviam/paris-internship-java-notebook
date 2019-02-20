@@ -77,9 +77,9 @@ public class JShellExecutor {
 	 * @return a list of suggestions for the user
 	 */
 	public Set<String> codeAutoCompletion(String input, int cursor) {
-		SourceCodeAnalysis.CompletionInfo completeness = jshell.sourceCodeAnalysis().analyzeCompletion(input);
+		// SourceCodeAnalysis.CompletionInfo completeness = jshell.sourceCodeAnalysis().analyzeCompletion(input);
 		List<SourceCodeAnalysis.Suggestion> suggestions = jshell.sourceCodeAnalysis().completionSuggestions(input, cursor, new int[1] );
-		System.out.println(completeness.completeness());
+		// System.out.println(completeness.completeness());
 		List<String> autocompletion = new ArrayList<String>();
 		for (SourceCodeAnalysis.Suggestion suggestion: suggestions) {
 			autocompletion.add(suggestion.continuation());
