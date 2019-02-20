@@ -80,6 +80,17 @@ export function* goToNotebook(): Iterator<any> {
     yield put(push("/notebook"));
 }
 
+export function* restartJshellRequest(params: any): Iterator<any> {
+    try {
+        const rep = yield call(API.restartJshell, params.payload.notebookId);
+        console.log("api result", rep);
+        yield put(COMMANDS_ACTIONS.restartJShellSuccess());
+        yield put(COMMANDS_ACTIONS.currentVariablesRequest({notebookId: params.payload.notebookId}))
+    } catch (error) {
+        yield put(COMMANDS_ACTIONS.restartJshellFailure());
+    }
+}
+
 export function* commandSaga(): Iterator<any> {
     yield takeEvery(ActionTypes.PROCESS_COMMAND_REQUEST, processCommandRequest);
     yield takeEvery(ActionTypes.SAVE_CODE_SNIPPET_REQUEST, saveCodeSnippetRequest);
@@ -88,4 +99,5 @@ export function* commandSaga(): Iterator<any> {
     yield takeEvery(ActionTypes.SAVE_NOTEBOOK_REQUEST, saveNotebookRequest);
     yield takeEvery(ActionTypes.CURRENT_VARIABLES_REQUEST, currentVariablesRequest);
     yield takeEvery(ActionTypes.COMPLETION_ITEMS_REQUEST, completionItemsRequest);
+    yield takeEvery(ActionTypes.RESTART_JSHELL_REQUEST, restartJshellRequest);
 }

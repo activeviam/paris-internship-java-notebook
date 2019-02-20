@@ -11,6 +11,7 @@ interface IActionBarProps {
     addCodeBlock: () => void; 
     runAllCells: () => void;
     className?: string;
+    restartJshell: () => void;
     saveNotebook: () => void;
     toggleDrawer: () => void;
     drawerState: boolean;
@@ -29,11 +30,15 @@ class ActionBar extends React.Component<IActionBarProps, {}> {
     public handleSaveNotebook() {
         this.props.saveNotebook();
     }
+
+    public handleRestartJshell() {
+        this.props.restartJshell();
+    }
     public render() {
         return(
             <div className={this.props.className}>
                 <Button color="primary" onClick={() => this.handleSaveNotebook()}>Save</Button>
-                <Button color="primary">Restart</Button>
+                <Button color="primary"onClick={() => this.handleRestartJshell()}>Restart</Button>
                 <Button color="primary" onClick={() => this.handleRunAllCells()}>Run all</Button>
                 <Button color="primary" onClick={() => this.handleAddCodeBlock()}>New Cell</Button>
                 <IconButton onClick={() => this.props.toggleDrawer()}>
