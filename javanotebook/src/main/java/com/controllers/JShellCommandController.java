@@ -3,11 +3,15 @@ package com.controllers;
 import com.models.CommandOutput;
 import com.models.Variable;
 import com.models.dto.ReceivedCommandVM;
+import com.models.dto.ReceivedCommandsVM;
+import com.models.CommandAndId;
+import com.models.CommandOutputAndId;
 import com.utils.JShellExecutor;
 import com.services.JShellService;
 
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +29,25 @@ public class JShellCommandController {
 
     @PostMapping(value = "/api/jshellCommand")
     public List<CommandOutput> command(@RequestBody ReceivedCommandVM command){
-        // TODO : for now we statically create a jse in the service
         final JShellExecutor executor = jShellService.getJse(command.getId());
         final List<CommandOutput> output= executor.evaluateCommand(command.getCommand());
         return output;
+    }
+
+    @PostMapping(value = "/api/jshellCommands")
+    public List<CommandOutputAndId> commands(@RequestBody ReceivedCommandsVM commands){
+        System.out.println(commands.getCommands());
+        System.out.println(commands.getNotebookId());
+
+        final JShellExecutor executor = jShellService.getJse(commands.getNotebookId());
+        final List<CommandOutputAndId> outputs = new ArrayList<CommandOutputAndId>();
+        for (CommandAndId c : commands.getCommands()) {
+            CommandOutputAndId output = new CommandOutputAndId();
+            output.setOutput(executor.evaluateCommand(c.getCommand()));
+            output.setId(c.getId());
+            outputs.add(output);
+        }
+        return outputs;
     }
 
     @GetMapping(value="/api/codeAutoCompletion/{id}/{code}/{cursor}")
