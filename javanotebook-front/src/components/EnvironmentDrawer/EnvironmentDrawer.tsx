@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 
 import {IVariable} from '../../interfaces';
 
+import { Styled } from "./EnvironmentDrawer.style";
+
 
 interface IEnvironmentDrawerProps {
     open: boolean;
@@ -30,7 +32,10 @@ class EnvironmentDrawer extends React.Component <IEnvironmentDrawerProps, {} > {
                         return (
                             <div key={index}>
                                 <ListItem>
-                                    <Typography variant="h6">{value.typeName}: {value.name}</Typography>
+                                    <Styled.ItemValue>
+                                        <Typography variant="h6">{value.typeName}: {value.name} </Typography>
+                                        <Typography variant="h6">{value.value}</Typography>
+                                    </Styled.ItemValue>
                                 </ListItem>
                                 <Divider />
                             </div>
