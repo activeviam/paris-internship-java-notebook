@@ -2,6 +2,8 @@ package com.controllers;
 
 import com.models.CommandOutput;
 import com.models.Variable;
+import com.models.Documentation;
+import com.models.dto.AutoCompletionVM;
 import com.models.dto.ReceivedCommandVM;
 import com.models.dto.ReceivedCommandsVM;
 import com.models.CommandAndId;
@@ -51,10 +53,16 @@ public class JShellCommandController {
     }
 
     @GetMapping(value="/api/codeAutoCompletion/{id}/{code}/{cursor}")
-    public Set<String> autoComplete(@PathVariable("id") Long id, @PathVariable("code") String code, @PathVariable("cursor") long cursor){
+    public AutoCompletionVM autoComplete(@PathVariable("id") Long id, @PathVariable("code") String code, @PathVariable("cursor") long cursor){
         final JShellExecutor jse = jShellService.getJse(id);
-        final Set<String> autoCompletion = jse.codeAutoCompletion(code, (int)cursor);
-        return autoCompletion;
+        final Set<String> suggestions = jse.codeAutoCompletion(code, (int)cursor);
+        final List<String> suggestionList = new ArrayList<>();
+        suggestionList.addAll(suggestions);
+        final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
+        final AutoCompletionVM autoCompletionVM = new AutoCompletionVM();
+        autoCompletionVM.setSuggestions(suggestions);
+        autoCompletionVM.setDocumentation(documentation);
+        return autoCompletionVM;
     }
 
     @GetMapping(value="/api/currentVariables/{id}")

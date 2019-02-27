@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.models.CommandOutput;
+import com.models.Documentation;
 import com.models.Variable;
 
 import jdk.jshell.Diag;
@@ -89,6 +90,36 @@ public class JShellExecutor {
 		}
 		HashSet<String> hs = new HashSet<String>(autocompletion);
 		return hs;
+	}
+
+
+	/**
+	 * Generate the javadoc for the autocompletion suggestions
+	 * @param input: the user's curent line of code
+	 * @param suggestions: the suggestions the jshell has generated
+	 * @return a list of the documentation objects for each suggestion
+	 */
+	public List<Documentation> generateJavaDoc(String input, List<String> suggestions){
+		String reverseInput = new StringBuilder(input).reverse().toString();
+		String splitInput[] = reverseInput.split("\\.", 2);
+		if (splitInput.length > 1){
+			input = new StringBuilder(splitInput[1]).reverse().toString();
+			for (int i=0; i< suggestions.size(); i++){
+				suggestions.set(i, input + "." + suggestions.get(i) + ")");
+			}
+		}
+		List<Documentation>documentation = new ArrayList<>();
+		for (String suggestion: suggestions) {
+			List<SourceCodeAnalysis.Documentation> docList = jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), false);
+			if (docList.size() > 0) {
+				SourceCodeAnalysis.Documentation doc= jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), false).get(0);
+				documentation.add(new Documentation(doc.signature(), doc.javadoc()));
+			}
+			else {
+				documentation.add(null);
+			}
+		}
+		return documentation;
 	}
 
 
