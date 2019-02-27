@@ -7,6 +7,12 @@ const sendCommand = async (command: string, notebookId: number) => {
     return rep;
 };
 
+const sendCommands = async (commandsAndIds: Array<{command: string, id: number}>, notebookId: number) => {
+    const url = BACK_URL + '/jshellCommands';
+    const rep = await axios.post(url, {commandsAndIds, notebookId});
+    return rep;
+};
+
 const saveCodeSnippet = async (content: string, name: string) => {
     const url = BACK_URL + '/codeSnippet/save';
     const rep = await axios.post(url, {content, name});
@@ -55,6 +61,7 @@ export const API = {
     getCompletionItems,
     saveCodeSnippet,
     sendCommand,
+    sendCommands,
     saveNotebook,
     restartJshell,
 }

@@ -16,6 +16,10 @@ export enum ActionTypes {
     PROCESS_COMMAND_SUCCESS = 'PROCESS_COMMAND_SUCCESS',
     PROCESS_COMMAND_FAILURE = 'PROCESS_COMMAND_FAILURE',
 
+    RUN_ALL_REQUEST = 'RUN_ALL_REQUEST',
+    RUN_ALL_SUCCESS = 'RUN_ALL_SUCCESS',
+    RUN_ALL_FAILURE = 'RUN_ALL_FAILURE',
+
     SAVE_CODE_SNIPPET_REQUEST = 'SAVE_CODE_SNIPPET_REQUEST',
     SAVE_CODE_SNIPPET_SUCCESS = 'SAVE_CODE_SNIPPET_SUCCESS',
     SAVE_CODE_SNIPPET_FAILURE = 'SAVE_CODE_SNIPPET_FAILURE',
@@ -52,6 +56,10 @@ export const COMMANDS_ACTIONS = {
     processingCommandRequest: (payload: IProcessingCommandRequestPayload) => createAction(ActionTypes.PROCESS_COMMAND_REQUEST, payload),
     processingCommandSuccess: (payload: IProcessingCommandRequestSuccess) => createAction(ActionTypes.PROCESS_COMMAND_SUCCESS, payload),
 
+    runAllFailure: () => createAction(ActionTypes.RUN_ALL_FAILURE),
+    runAllRequest: (payload: IRunAllRequestPayload) => createAction(ActionTypes.RUN_ALL_REQUEST, payload),
+    runAllSuccess: () => createAction(ActionTypes.RUN_ALL_SUCCESS),
+
     saveCodeSnippetFailure: () => createAction(ActionTypes.SAVE_CODE_SNIPPET_FAILURE),
     saveCodeSnippetRequest: (payload: ISaveCodeSnippetRequestPayload) => createAction(ActionTypes.SAVE_CODE_SNIPPET_REQUEST, payload),
     saveCodeSnippetSuccess: () => createAction(ActionTypes.SAVE_CODE_SNIPPET_SUCCESS),
@@ -81,6 +89,11 @@ export const COMMANDS_ACTIONS = {
 
 export interface IRestartJshellRequest {
     notebookId: number,
+}
+
+export interface IRunAllRequestPayload {
+    commandsAndIds: Array<{command: string, id: number }>;
+    notebookId: number;
 }
 
 export interface ICompletionItemsRequest {

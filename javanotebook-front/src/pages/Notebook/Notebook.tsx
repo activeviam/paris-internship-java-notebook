@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ActionBar, CodeBlock, EnvironmentDrawer } from '../../components';
 
-import { INotebook, IVariable } from '../../interfaces';
+import { INotebook, IProcessedCommand, IVariable } from '../../interfaces';
 
 
 interface INotebookPageState {
@@ -15,11 +15,12 @@ interface INotebookPageProps {
   className?: string;
   blockIds: number[];
   notebook: INotebook;
-  codeBlocks: any;
+  codeBlocks: {[id: number]: {codeOutput: IProcessedCommand[], codeContent: string}};
   variables: IVariable[];
   addCodeBlock: (id: number) => void;
   currentVariables: (notebookId: number) => void;
   saveNotebook: (notebook: INotebook) => void;
+  runAllRequest: (commandAndIds: Array<{command: string, id: number}>, notebookId: number) => void;
   restartJshell: (notebookId: number) => void;
 }
 
@@ -56,7 +57,12 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
 
   public handleRunAllCells(){
     // TODO: implement action to run all cells
-
+    const commandAndIds = []
+    for(const id of Object.keys(this.props.codeBlocks) ) {
+      commandAndIds.push({command: this.props.codeBlocks[id].codeContent, id: +id});
+    }
+    const notebookId = this.props.notebook.id;
+    this.props.runAllRequest(commandAndIds, notebookId);
     // reload the variables when all cells are re-run
     this.props.currentVariables(this.props.notebook.id);
   }

@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     currentVariables: (notebookId: number) => dispatch(COMMANDS_ACTIONS.currentVariablesRequest({notebookId})),
     restartJshell: (notebookId: number) => dispatch(COMMANDS_ACTIONS.restartJShellRequest({notebookId})),
     saveNotebook: (notebook: INotebook) => dispatch(COMMANDS_ACTIONS.saveNotebookRequest({notebook})),
+    runAllRequest: (commandsAndIds: Array<{command: string, id: number}>, notebookId: number) => dispatch(COMMANDS_ACTIONS.runAllRequest({commandsAndIds, notebookId})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StyledNotebookPage);
