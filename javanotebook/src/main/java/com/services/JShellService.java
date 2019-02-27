@@ -20,5 +20,7 @@ public interface JShellService {
 	JShellExecutor getJse(long id);
 	
 	JShellExecutor getDefaultJSE();
+
+	void restartJse(long id);
     
 }

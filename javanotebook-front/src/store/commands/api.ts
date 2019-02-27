@@ -43,6 +43,12 @@ const getCompletionItems = async (notebookId: number, codeContent: string, curso
     return rep;
 }
 
+const restartJshell = async (notebookId: number) => {
+    const url = BACK_URL + `/restartJshell/${notebookId.toString()}`;
+    const rep = await axios.post(url);
+    return rep;
+}
+
 export const API = {
     currentVariables,
     getCodeSnippet,
@@ -50,4 +56,5 @@ export const API = {
     saveCodeSnippet,
     sendCommand,
     saveNotebook,
+    restartJshell,
 }

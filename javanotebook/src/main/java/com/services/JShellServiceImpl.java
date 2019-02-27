@@ -36,4 +36,10 @@ public class JShellServiceImpl implements JShellService {
     public JShellExecutor getDefaultJSE(){
         return jShellRepo.get((long)-1);
     }
+
+    @Override
+    public void restartJse(long id){
+        final JShellExecutor jse = new JShellExecutor();
+        jShellRepo.put(id, jse);
+    }
 }
