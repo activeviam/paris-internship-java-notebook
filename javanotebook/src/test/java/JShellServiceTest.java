@@ -18,8 +18,8 @@ public class JShellServiceTest {
 
     @Test
     public void testGetJse() {
-        jShellService.createJse("0");
-        JShellExecutor jse = jShellService.getJse("0");
+        jShellService.createJse(0);
+        JShellExecutor jse = jShellService.getJse(0);
         assertNotNull(jse);
     }
 }
