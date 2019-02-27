@@ -40,6 +40,10 @@ export enum ActionTypes {
     COMPLETION_ITEMS_FAILURE = 'COMPLETION_ITEMS_FAILURE',
     COMPLETION_ITEMS_REQUEST = 'COMPLETION_ITEMS_REQUEST',
     COMPLETION_ITEMS_SUCCESS = 'COMPLETION_ITEMS_SUCCESS',
+
+    RESTART_JSHELL_FAILURE = 'RESTART_JSHELL_FAILURE',
+    RESTART_JSHELL_REQUEST = 'RESTART_JSHELL_REQUEST',
+    RESTART_JSHELL_SUCCESS = 'RESTART_JSHELL_SUCCESS',
 }
 
 export const COMMANDS_ACTIONS = {
@@ -76,6 +80,15 @@ export const COMMANDS_ACTIONS = {
     completionItemsFailure: () => createAction(ActionTypes.COMPLETION_ITEMS_FAILURE),
     completionItemsRequest: (payload: ICompletionItemsRequest) => createAction(ActionTypes.COMPLETION_ITEMS_REQUEST, payload),
     completionItemsSuccess: (payload: ICompletionItemsSuccess) => createAction(ActionTypes.COMPLETION_ITEMS_SUCCESS, payload),
+
+    restartJshellFailure: () => createAction(ActionTypes.RESTART_JSHELL_FAILURE),
+    restartJShellRequest: (payload: IRestartJshellRequest) => createAction(ActionTypes.RESTART_JSHELL_REQUEST, payload),
+    restartJShellSuccess: () => createAction(ActionTypes.RESTART_JSHELL_SUCCESS), 
+}
+
+
+export interface IRestartJshellRequest {
+    notebookId: number,
 }
 
 export interface IRunAllRequestPayload {

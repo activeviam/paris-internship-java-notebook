@@ -63,4 +63,9 @@ public class JShellCommandController {
         final List<Variable> variables = jse.currentVariables();
         return variables;
     }
+
+    @PostMapping(value="/api/restartJshell/{id}")
+    public void restart(@PathVariable("id") Long id){
+        jShellService.restartJse(id);
+    }
 }

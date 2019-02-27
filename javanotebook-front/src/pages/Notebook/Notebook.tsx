@@ -21,6 +21,7 @@ interface INotebookPageProps {
   currentVariables: (notebookId: number) => void;
   saveNotebook: (notebook: INotebook) => void;
   runAllRequest: (commandAndIds: Array<{command: string, id: number}>, notebookId: number) => void;
+  restartJshell: (notebookId: number) => void;
 }
 
 class NotebookPage extends React.Component <INotebookPageProps, INotebookPageState > {
@@ -65,12 +66,17 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
     // reload the variables when all cells are re-run
     this.props.currentVariables(this.props.notebook.id);
   }
+
+  public handleRestartJshell() {
+    this.props.restartJshell(this.props.notebook.id);
+  }
   
   public render() {
     return (
       <div className={this.props.className}>
         <ActionBar 
           addCodeBlock={() => this.handleAddCodeBlocks()}
+          restartJshell={() => this.handleRestartJshell()}
           runAllCells={() => this.handleRunAllCells()}
           saveNotebook={() => this.handleSaveNotebook()}
           toggleDrawer={() => this.handleToggleDrawer()}
