@@ -9,5 +9,5 @@ export interface ICommandStore {
     currentNotebook?: number;
     codeBlocks?: { [id: number]: {codeOutput: IProcessedCommand[], codeContent: string}};
     variables?: IVariable[];
-    completionItems?: monaco.languages.CompletionItem[];
+    completionItems?: monaco.languages.CompletionList;
 }

@@ -20,7 +20,7 @@ interface ICodeBlockProps {
     getCodeOutput: (id: number) => IProcessedCommand[];
     className?: string;
     getCode: (id: number) => string;
-    getCompletionItem: () => monaco.languages.CompletionItem[];
+    getCompletionItem: () => monaco.languages.CompletionList;
     completionItemRequest: (notebookId: number, codeContent: string, cursor: number) => void;
     notebookId: number;
 }
