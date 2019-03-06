@@ -4,6 +4,7 @@ import com.models.CommandOutput;
 import com.models.Variable;
 import com.models.Documentation;
 import com.models.dto.AutoCompletionVM;
+import com.models.dto.EnvironmentStatusVM;
 import com.models.dto.ReceivedCommandVM;
 import com.models.dto.ReceivedCommandsVM;
 import com.models.CommandAndId;
@@ -58,18 +59,24 @@ public class JShellCommandController {
         final Set<String> suggestions = jse.codeAutoCompletion(code, (int)cursor);
         final List<String> suggestionList = new ArrayList<>();
         suggestionList.addAll(suggestions);
-        final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
         final AutoCompletionVM autoCompletionVM = new AutoCompletionVM();
         autoCompletionVM.setSuggestions(suggestions);
-        autoCompletionVM.setDocumentation(documentation);
+        if (suggestionList.size() > 0) {
+            final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
+            autoCompletionVM.setDocumentation(documentation);
+        }
         return autoCompletionVM;
     }
 
-    @GetMapping(value="/api/currentVariables/{id}")
-    public List<Variable> getVariables(@PathVariable("id") Long id){
+    @GetMapping(value="/api/environmentStatus/{id}")
+    public EnvironmentStatusVM getVariables(@PathVariable("id") Long id){
         final JShellExecutor jse = jShellService.getJse(id);
         final List<Variable> variables = jse.currentVariables();
-        return variables;
+        final List<String> imports = jse.currentImports();
+        final EnvironmentStatusVM environmentStatusVm = new EnvironmentStatusVM();
+        environmentStatusVm.setImports(imports);
+        environmentStatusVm.setVariables(variables);
+        return environmentStatusVm;
     }
 
     @PostMapping(value="/api/restartJshell/{id}")

@@ -112,6 +112,7 @@ export interface ICurrentVariablesRequest {
 
 export interface ICurrentVariablesSuccess {
     variables: IVariable[];
+    imports: string[];
 }
 
 export interface ISaveNotebook {

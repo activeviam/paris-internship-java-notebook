@@ -36,9 +36,9 @@ const saveNotebook = async (id: string, name: string, description: string, codeS
 }
 
 const currentVariables = async (notebookId: number) => {
-    const url = BACK_URL + `/currentVariables/${notebookId.toString()}`;
+    const url = BACK_URL + `/environmentStatus/${notebookId.toString()}`;
     const rep = await axios.get(url);
-    console.log("api current variables", rep);
+    console.log("api environmentStatus", rep);
     return rep;
 }
 

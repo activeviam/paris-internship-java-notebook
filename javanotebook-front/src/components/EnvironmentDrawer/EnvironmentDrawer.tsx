@@ -14,6 +14,7 @@ import { Styled } from "./EnvironmentDrawer.style";
 interface IEnvironmentDrawerProps {
     open: boolean;
     variables?: IVariable[];
+    imports?: string[];
 }
 
 
@@ -26,6 +27,18 @@ class EnvironmentDrawer extends React.Component <IEnvironmentDrawerProps, {} > {
                     variant="persistent"
                     anchor="right"
                     open={this.props.open}>
+                    <List>
+                        <Typography variant="title"> Imports </Typography>
+                        {(this.props.imports || []).map((value: string, index: number) => {
+                            return (
+                                <div key={index}>
+                                    <ListItem>
+                                        <Typography variant="h6">{value}</Typography>
+                                    </ListItem>
+                                </div>
+                            );
+                        })}
+                    </List>
                     <List>
                         <Typography variant="title"> Variables </Typography>
                     {(this.props.variables || []).map((value: IVariable, index: number) => {

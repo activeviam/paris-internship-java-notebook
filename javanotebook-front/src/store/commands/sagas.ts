@@ -68,10 +68,14 @@ export function* currentVariablesRequest(params: any): Iterator<any> {
     try {
         const rep = yield call(API.currentVariables, params.payload.notebookId);
         let variables: IVariable[] = [];
-        rep.data.map((value:any) => {
+        rep.data.variables.map((value:any) => {
             variables = [...variables, {name: value.name.toString(), typeName: value.typeName.toString(), value: value.value}]
-        })
-        yield put(COMMANDS_ACTIONS.currentVariablesSuccess({variables}));
+        });
+        let imports: string[] = [];
+        rep.data.imports.map((value: string) => {
+            imports = [...imports, value];
+        });
+        yield put(COMMANDS_ACTIONS.currentVariablesSuccess({variables, imports}));
     } catch (error) {
         yield put(COMMANDS_ACTIONS.currentVariablesFailure());
     }
@@ -84,8 +88,8 @@ export function* completionItemsRequest(params: any): Iterator<any> {
             label: value,
             insertText: value,
             kind: monaco.languages.CompletionItemKind.Text,
-            documentation: rep.data.documentation[index]!.javaDoc,
-            detail: rep.data.documentation[index]!.signature,
+            documentation: rep.data.documentation[index] ? rep.data.documentation[index].javadoc : "",
+            detail: rep.data.documentation[index] ? rep.data.documentation[index].signature : "",
         }));
         yield put(COMMANDS_ACTIONS.completionItemsSuccess({completionItems}));
     } catch (error) {
