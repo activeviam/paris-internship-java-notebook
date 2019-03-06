@@ -108,11 +108,12 @@ public class JShellExecutor {
 				suggestions.set(i, input + "." + suggestions.get(i) + ")");
 			}
 		}
+		System.out.println(suggestions.get(0));
 		List<Documentation>documentation = new ArrayList<>();
 		for (String suggestion: suggestions) {
 			List<SourceCodeAnalysis.Documentation> docList = jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), false);
 			if (docList.size() > 0) {
-				SourceCodeAnalysis.Documentation doc= jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), false).get(0);
+				SourceCodeAnalysis.Documentation doc= jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), true).get(0);
 				documentation.add(new Documentation(doc.signature(), doc.javadoc()));
 			}
 			else {
