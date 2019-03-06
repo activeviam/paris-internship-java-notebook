@@ -10,5 +10,5 @@ export interface ICommandStore {
     codeBlocks?: { [id: number]: {codeOutput: IProcessedCommand[], codeContent: string}};
     variables?: IVariable[];
     imports?: string[];
-    completionItems?: monaco.languages.CompletionItem[];
+    completionItems?: monaco.languages.CompletionList;
 }

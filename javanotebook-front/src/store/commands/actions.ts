@@ -103,7 +103,7 @@ export interface ICompletionItemsRequest {
 }
 
 export interface ICompletionItemsSuccess {
-    completionItems: monaco.languages.CompletionItem[];
+    completionItems: monaco.languages.CompletionList;
 }
 
 export interface ICurrentVariablesRequest {

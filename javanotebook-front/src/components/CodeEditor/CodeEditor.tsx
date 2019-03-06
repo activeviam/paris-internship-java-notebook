@@ -11,7 +11,7 @@ interface ICodeEditorProps {
     code: string;
     onChange: (value: string) => void;
     className?: string;
-    getCompletionItem: () => monaco.languages.CompletionItem[];
+    getCompletionItem: () => monaco.languages.CompletionList;
     completionItemRequest: (codeContent: string, cursor: number) => void;
 }
 

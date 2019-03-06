@@ -84,7 +84,7 @@ export function* currentVariablesRequest(params: any): Iterator<any> {
 export function* completionItemsRequest(params: any): Iterator<any> {
     try {
         const rep = yield call(API.getCompletionItems, params.payload.notebookId, params.payload.codeContent, params.payload.cursor); 
-        const completionItems: any[] = rep.data.suggestions.map((value: any, index: number) => ({
+        const completionItems: monaco.languages.CompletionList = rep.data.suggestions.map((value: any, index: number) => ({
             label: value,
             insertText: value,
             kind: monaco.languages.CompletionItemKind.Text,

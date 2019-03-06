@@ -109,7 +109,6 @@ public class JShellExecutor {
 				suggestions.set(i, input + "." + suggestions.get(i) + ")");
 			}
 		}
-		System.out.println(suggestions.get(0));
 		List<Documentation>documentation = new ArrayList<>();
 		for (String suggestion: suggestions) {
 			List<SourceCodeAnalysis.Documentation> docList = jshell.sourceCodeAnalysis().documentation(suggestion, suggestion.length(), false);
