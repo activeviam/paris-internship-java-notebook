@@ -88,8 +88,8 @@ export function* completionItemsRequest(params: any): Iterator<any> {
             label: value,
             insertText: value,
             kind: monaco.languages.CompletionItemKind.Text,
-            documentation: rep.data.documentation[index]!.javaDoc,
-            detail: rep.data.documentation[index]!.signature,
+            documentation: rep.data.documentation[index] ? rep.data.documentation[index].javadoc : "",
+            detail: rep.data.documentation[index] ? rep.data.documentation[index].signature : "",
         }));
         yield put(COMMANDS_ACTIONS.completionItemsSuccess({completionItems}));
     } catch (error) {

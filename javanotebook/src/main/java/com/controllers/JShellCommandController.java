@@ -59,10 +59,12 @@ public class JShellCommandController {
         final Set<String> suggestions = jse.codeAutoCompletion(code, (int)cursor);
         final List<String> suggestionList = new ArrayList<>();
         suggestionList.addAll(suggestions);
-        final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
         final AutoCompletionVM autoCompletionVM = new AutoCompletionVM();
         autoCompletionVM.setSuggestions(suggestions);
-        autoCompletionVM.setDocumentation(documentation);
+        if (suggestionList.size() > 0) {
+            final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
+            autoCompletionVM.setDocumentation(documentation);
+        }
         return autoCompletionVM;
     }
 
