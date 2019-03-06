@@ -64,8 +64,10 @@ public class JShellCommandController {
         if (suggestionList.size() > 0) {
             final List<Documentation> documentation = jse.generateJavaDoc(code, suggestionList);
             autoCompletionVM.setDocumentation(documentation);
+            return autoCompletionVM;
+        } else {
+            return autoCompletionVM;
         }
-        return autoCompletionVM;
     }
 
     @GetMapping(value="/api/environmentStatus/{id}")
