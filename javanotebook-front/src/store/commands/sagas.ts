@@ -69,7 +69,7 @@ export function* currentVariablesRequest(params: any): Iterator<any> {
         const rep = yield call(API.currentVariables, params.payload.notebookId);
         let variables: IVariable[] = [];
         rep.data.map((value:any) => {
-            variables = [...variables, {name: value.name.toString(), typeName: value.typeName.toString()}]
+            variables = [...variables, {name: value.name.toString(), typeName: value.typeName.toString(), value: value.value}]
         })
         yield put(COMMANDS_ACTIONS.currentVariablesSuccess({variables}));
     } catch (error) {

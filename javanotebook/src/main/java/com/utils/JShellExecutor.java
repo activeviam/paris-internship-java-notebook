@@ -133,7 +133,8 @@ public class JShellExecutor {
 		for (Snippet snip: snippets){
 			if (snip.kind() == jdk.jshell.Snippet.Kind.VAR && jshell.status(snip).isActive()) {
 				VarSnippet variable = (VarSnippet) snip;
-				variables.add(new Variable(variable.typeName(),variable.name()));
+				CommandOutput valueOutput = this.evaluateCommand("System.out.println(" + variable.name() + ");").get(0);
+				variables.add(new Variable(variable.typeName(),variable.name(), valueOutput.getOutput()));
 			}
 		}
 		return variables;
