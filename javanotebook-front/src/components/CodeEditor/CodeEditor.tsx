@@ -57,7 +57,7 @@ class CodeEditor extends React.Component <ICodeEditorProps, {}> {
         };
         return (
             <MonacoEditor
-                width="800"
+                width="950"
                 height={this.getEditorHeight()}
                 language="java"
                 theme="vs-dark"

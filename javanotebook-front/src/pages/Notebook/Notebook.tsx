@@ -82,15 +82,31 @@ class NotebookPage extends React.Component <INotebookPageProps, INotebookPageSta
           saveNotebook={() => this.handleSaveNotebook()}
           toggleDrawer={() => this.handleToggleDrawer()}
           drawerState={this.state.drawerState}/>
-        <EnvironmentDrawer open={this.state.drawerState} variables={this.props.variables} imports={this.props.imports} />
-        {(this.props.blockIds || []).map((id: number) => 
-            <CodeBlock key={`${id}-block`} id={id}/>
-        )}
+        <MainBlock>
+            <EditorsContainer>
+              {(this.props.blockIds || []).map((id: number) => 
+                  <CodeBlock key={`${id}-block`} id={id}/>
+              )}
+              {/* <span>Made by Daniel</span> */}
+            </EditorsContainer>
+            <EnvironmentDrawer open={this.state.drawerState} variables={this.props.variables} imports={this.props.imports} />
+        </MainBlock>
       </div>
     );
   }
 
 }
+
+const MainBlock = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+const EditorsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
 
 const StyledNotebookPage = styled(NotebookPage)`
     display: flex;
