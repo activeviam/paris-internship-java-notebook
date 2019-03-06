@@ -64,7 +64,8 @@ export function commandReducer(state : ICommandStore  = {}, action: Actions): IC
             return {...state};
         case ActionTypes.CURRENT_VARIABLES_SUCCESS:
             const variables: IVariable[] = action.payload!.variables;
-            return {...state, variables};
+            const imports: string[] = action.payload!.imports;
+            return {...state, imports, variables};
 
         case ActionTypes.COMPLETION_ITEMS_FAILURE:
             return {...state};

@@ -20,6 +20,7 @@ import jdk.jshell.SnippetEvent;
 import jdk.jshell.SourceCodeAnalysis;
 import jdk.jshell.Snippet;
 import jdk.jshell.VarSnippet;
+import jdk.jshell.ImportSnippet;
 
 
 public class JShellExecutor {
@@ -138,6 +139,21 @@ public class JShellExecutor {
 			}
 		}
 		return variables;
+	}
+
+	/**
+	 * Returns the list of active imports in the current java environment
+	 */
+	public List<String> currentImports() {
+		List<String> imports = new ArrayList<>();
+		Snippet[] snippets = jshell.snippets().toArray(Snippet[]::new);
+		for (Snippet snippet: snippets) {
+			if (snippet.kind() == jdk.jshell.Snippet.Kind.IMPORT && jshell.status(snippet).isActive()) {
+				ImportSnippet importSnippet = (ImportSnippet) snippet;
+				imports.add(importSnippet.fullname());
+			}
+		}
+		return imports;
 	}
 
 
