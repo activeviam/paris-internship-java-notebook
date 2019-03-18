@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
+// import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
@@ -23,10 +23,11 @@ class EnvironmentDrawer extends React.Component <IEnvironmentDrawerProps, {} > {
 
     public render() {
         return (
-                <Drawer
-                    variant="persistent"
-                    anchor="right"
-                    open={this.props.open}>
+                // <Drawer
+                //     variant="persistent"
+                //     anchor="right"
+                //     open={this.props.open}>
+                <Styled.EnvironmentBlock>
                     <List>
                         <Typography variant="title"> Imports </Typography>
                         {(this.props.imports || []).map((value: string, index: number) => {
@@ -55,7 +56,8 @@ class EnvironmentDrawer extends React.Component <IEnvironmentDrawerProps, {} > {
                         );
                     })}
                     </List>
-                </Drawer>
+                </Styled.EnvironmentBlock>
+                // </Drawer>
         )
     }
 }
