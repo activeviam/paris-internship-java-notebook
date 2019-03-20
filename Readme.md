@@ -1,6 +1,6 @@
 # Java Notebook
 
-Thanks to this amazing projet, you can code in your favorite programming language ever (java not php) directly in your browser!!! The simple and intuitive UI will leave you wondering why you ever thought jupyter was cool in the first place! Python is for wannabe "data-scientists", Java is for pros. This is the tool you never new you needed and which will change your programming life!
+Thanks to this amazing projet, you can code in your favorite programming language ever (java :tada:) directly in your browser!!! The simple and intuitive UI will leave you wondering why you ever thought jupyter was cool in the first place! This is the tool you never new you needed and which will change your programming life!
 
 This project is split in two parts:  
 - javanotebook
